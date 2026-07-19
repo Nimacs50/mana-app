@@ -1,0 +1,4081 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مانا | دستیار هوشمند مطالعه و تمرکز</title>
+    <!-- Google Vazirmatn Font for Persian Typography and FontAwesome for premium icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0B0F14;
+            --card-color: #171C23;
+            --card-hover-color: #1E252F;
+            --primary: #A3E635;
+            --primary-glow: rgba(163, 230, 53, 0.15);
+            --primary-glow-strong: rgba(163, 230, 53, 0.4);
+            --secondary-green: #7BAE4A;
+            --text-primary: #E7E7E7;
+            --text-secondary: #9AA4B2;
+            --accent-orange: #F97316;
+            --accent-orange-glow: rgba(249, 115, 22, 0.2);
+            --border-color: rgba(154, 164, 178, 0.08);
+            --glass-bg: rgba(23, 28, 35, 0.65);
+            --glass-blur: blur(20px);
+            --font-family: 'Vazirmatn', sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+            line-height: 1.65;
+        }
+
+        /* Custom Scrollbar for premium OS experience */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(154, 164, 178, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            background: var(--card-color);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 32px 24px;
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition-smooth);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding-right: 8px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary-green));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: 800;
+            box-shadow: 0 8px 20px var(--primary-glow-strong);
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .logo-tagline {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            background: var(--primary-glow);
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-right: auto;
+        }
+
+        /* Navigation links */
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-grow: 1;
+        }
+
+        .nav-section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            opacity: 0.55;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0 20px;
+            margin: 16px 0 4px;
+        }
+
+        .nav-section-label:first-child {
+            margin-top: 2px;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-item a i {
+            font-size: 1.1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-item:hover a, .nav-item.active a {
+            color: var(--primary);
+            background: rgba(163, 230, 53, 0.05);
+        }
+
+        .nav-item.active a {
+            background: var(--primary-glow);
+            font-weight: 600;
+            box-shadow: inset 2px 0 0 var(--primary);
+        }
+
+        .nav-item:hover a i, .nav-item.active a i {
+            transform: scale(1.1);
+            color: var(--primary);
+        }
+
+        /* User Profile & XP section at bottom of Sidebar */
+        .sidebar-profile {
+            background: rgba(11, 15, 20, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: auto;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .profile-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-orange), #ff4500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            border: 2px solid var(--card-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profile-level {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .xp-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .xp-fill {
+            width: 68%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-green), var(--primary));
+            border-radius: 10px;
+            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .xp-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        /* SPA Page Switching */
+        .page-content {
+            display: none;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .page-content.active {
+            display: flex;
+            animation: page-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes page-fade-in {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Per-page title row (used on non-dashboard pages instead of the hero banner) */
+        .page-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .page-title i {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+        }
+
+        .page-subtitle {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .page-badges {
+            display: flex;
+            gap: 12px;
+        }
+
+        .mini-stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 10px 16px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .mini-stat-badge i {
+            color: var(--text-secondary);
+        }
+
+        /* Focus Timer Page: two-column grid (big timer + side info) */
+        .timer-page-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .focus-timer-card--large .timer-circle-svg {
+            width: 280px;
+            height: 280px;
+        }
+
+        .focus-timer-card--large .timer-text {
+            font-size: 4rem;
+        }
+
+        .focus-timer-card--large .timer-display-container {
+            margin: 32px 0;
+        }
+
+        /* Today's focus session log */
+        .session-log-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .session-log-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 4px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .session-log-item:last-child {
+            border-bottom: none;
+        }
+
+        .session-log-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: var(--primary-glow);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .session-log-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex-grow: 1;
+        }
+
+        .session-log-subject {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .session-log-meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .session-log-duration {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            background: var(--primary-glow);
+            padding: 4px 10px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 1280px) {
+            .timer-page-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Add Subject Form (دروس امروز page) */
+        .add-subject-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-grow: 1;
+        }
+
+        .form-field label {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .form-field.field-hours {
+            flex-grow: 0;
+            width: 140px;
+        }
+
+        .form-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .btn-add-subject {
+            background: var(--primary);
+            color: #0B0F14;
+            border: none;
+            border-radius: 12px;
+            padding: 0 24px;
+            font-family: var(--font-family);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            align-self: flex-end;
+            height: 46px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 8px 20px var(--primary-glow-strong);
+        }
+
+        .btn-add-subject:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+
+        .subject-delete-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            margin-right: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .subject-delete-btn:hover {
+            background: var(--accent-orange-glow);
+            color: var(--accent-orange);
+        }
+
+        .subject-list-empty {
+            text-align: center;
+            padding: 32px 16px;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+        }
+
+        @media (max-width: 640px) {
+            .add-subject-form {
+                flex-direction: column;
+            }
+            .form-field.field-hours {
+                width: 100%;
+            }
+            .btn-add-subject {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Stats & Reports page */
+        .range-tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 5px;
+        }
+
+        .range-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-family);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 9px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .range-tab.active {
+            background: var(--primary);
+            color: #0B0F14;
+            box-shadow: 0 4px 14px var(--primary-glow-strong);
+        }
+
+        .two-col-chart-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .chart-container--tall {
+            height: 300px;
+        }
+
+        @media (max-width: 1280px) {
+            .two-col-chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Streak heatmap */
+        .heatmap-scroll {
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-rows: repeat(7, 1fr);
+            grid-auto-flow: column;
+            gap: 4px;
+            width: max-content;
+        }
+
+        .heatmap-cell {
+            width: 15px;
+            height: 15px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .heatmap-cell[data-level="1"] { background: rgba(163, 230, 53, 0.25); }
+        .heatmap-cell[data-level="2"] { background: rgba(163, 230, 53, 0.5); }
+        .heatmap-cell[data-level="3"] { background: rgba(163, 230, 53, 0.75); }
+        .heatmap-cell[data-level="4"] { background: var(--primary); box-shadow: 0 0 6px var(--primary-glow-strong); }
+
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: flex-end;
+            margin-top: 14px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============ PROFILE PAGE ============ */
+
+        /* Hero profile card */
+        .profile-hero-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .profile-hero-card {
+            padding: 36px;
+        }
+
+        .profile-hero-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .profile-hero-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, var(--accent-orange), #ff4500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 2.2rem;
+            border: 3px solid var(--card-color);
+            box-shadow: 0 0 0 3px var(--primary-glow-strong);
+            flex-shrink: 0;
+        }
+
+        .profile-hero-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .profile-hero-tagline {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .profile-hero-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .profile-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profile-chip i { color: var(--text-secondary); }
+        .profile-chip.badge-chip { background: var(--primary-glow); border-color: transparent; color: var(--primary); }
+
+        .btn-edit-profile {
+            background: var(--primary);
+            color: #0B0F14;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-family: var(--font-family);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 8px 20px var(--primary-glow-strong);
+            flex-shrink: 0;
+        }
+
+        .btn-edit-profile:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+        /* Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .achievement-badge {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px 12px;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .achievement-badge:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.3);
+        }
+
+        .achievement-badge .badge-emoji {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 10px var(--primary-glow-strong));
+        }
+
+        .achievement-badge .badge-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .achievement-badge.locked {
+            opacity: 0.4;
+            filter: grayscale(1);
+        }
+
+        .achievement-badge.locked .badge-emoji { filter: none; }
+        .achievement-badge.locked:hover { transform: none; border-color: var(--border-color); box-shadow: none; }
+
+        /* Level growth big bar */
+        .level-growth-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .level-growth-badge {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: var(--primary-glow);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+
+        .xp-progress-bar-lg {
+            width: 100%;
+            height: 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .xp-progress-bar-lg .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7BAE4A, var(--primary));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Mana growth tree */
+        .growth-tree-card {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .growth-tree-visual {
+            font-size: 4.5rem;
+            filter: drop-shadow(0 0 24px var(--primary-glow-strong));
+            flex-shrink: 0;
+        }
+
+        .growth-tree-text h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .growth-tree-text p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Favorite subjects */
+        .subject-chip-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .subject-color-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px 18px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .subject-color-chip:hover { border-color: var(--primary); }
+
+        .color-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Personal goals */
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 4px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .goal-item:last-child { border-bottom: none; }
+
+        .goal-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: var(--primary-glow);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .goal-name { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); }
+
+        /* Theme swatches */
+        .theme-swatch-grid {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .theme-swatch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: var(--font-family);
+        }
+
+        .theme-swatch-color {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            border: 3px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .theme-swatch.active .theme-swatch-color {
+            border-color: var(--text-primary);
+            transform: scale(1.08);
+        }
+
+        .theme-swatch span { font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; }
+
+        /* Toggle switches */
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 4px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-row:last-child { border-bottom: none; }
+
+        .settings-row-label { display: flex; align-items: center; gap: 12px; font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+        .settings-row-label i { color: var(--text-secondary); width: 18px; text-align: center; }
+
+        .switch { position: relative; display: inline-block; width: 46px; height: 26px; flex-shrink: 0; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .switch-slider {
+            position: absolute; cursor: pointer; inset: 0;
+            background-color: rgba(255,255,255,0.08);
+            border-radius: 30px;
+            transition: var(--transition-smooth);
+        }
+        .switch-slider::before {
+            position: absolute; content: "";
+            height: 20px; width: 20px; right: 3px; bottom: 3px;
+            background-color: #fff; border-radius: 50%;
+            transition: var(--transition-smooth);
+        }
+        .switch input:checked + .switch-slider { background-color: var(--primary); }
+        .switch input:checked + .switch-slider::before { transform: translateX(-20px); }
+
+        /* Security / Sync / Device rows */
+        .action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 4px;
+            border-bottom: 1px solid var(--border-color);
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .action-row:last-child { border-bottom: none; }
+
+        .action-row-label { display: flex; align-items: center; gap: 12px; }
+        .action-row-icon {
+            width: 38px; height: 38px; border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary); flex-shrink: 0;
+        }
+        .action-row-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); }
+        .action-row-sub { font-size: 0.75rem; color: var(--text-secondary); }
+
+        .btn-outline-sm {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-family: var(--font-family);
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .btn-outline-sm:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-outline-sm.connected { border-color: var(--primary); color: var(--primary); background: var(--primary-glow); }
+
+        .export-buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-export {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 12px;
+            padding: 14px 22px;
+            font-family: var(--font-family);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .btn-export:hover { border-color: var(--primary); color: var(--primary); }
+
+        @media (max-width: 767px) {
+            .profile-hero-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 28px 20px;
+                gap: 20px;
+            }
+            .profile-hero-left {
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+                width: 100%;
+            }
+            .profile-hero-meta {
+                justify-content: center;
+            }
+            .btn-edit-profile {
+                justify-content: center;
+                width: 100%;
+            }
+            .growth-tree-card {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+                padding: 24px 20px;
+            }
+            .achievements-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            .theme-swatch-grid {
+                justify-content: center;
+            }
+            .action-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .action-row-label {
+                width: 100%;
+            }
+            .action-row .btn-outline-sm {
+                width: 100%;
+            }
+            .export-buttons-row {
+                flex-direction: column;
+            }
+            .btn-export {
+                width: 100%;
+                justify-content: center;
+            }
+            .settings-row {
+                padding: 14px 2px;
+            }
+            .level-growth-row {
+                gap: 12px;
+            }
+        }
+
+        /* Main Layout Content */
+        .main-content {
+            margin-right: 280px;
+            flex-grow: 1;
+            padding: 40px 48px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            transition: var(--transition-smooth);
+        }
+
+        /* Header Layout styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-section h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .welcome-section p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .action-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .action-button:hover {
+            background: var(--card-hover-color);
+            color: var(--primary);
+            border-color: rgba(163, 230, 53, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .badge-dot {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-orange);
+            box-shadow: 0 0 8px var(--accent-orange);
+        }
+
+        .calendar-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 0 16px;
+            height: 44px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .calendar-badge i {
+            color: var(--text-secondary);
+        }
+
+        /* Cinematic Hero Banner */
+        .hero-banner {
+            position: relative;
+            height: 220px;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 40px;
+            background: #0d1e15; /* Fallback */
+            border: 1px solid rgba(163, 230, 53, 0.1);
+            box-shadow: var(--shadow-premium);
+        }
+
+        /* Abstract Premium SVG Sunlit Forest Art Overlay */
+        .hero-banner-art {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.45;
+        }
+
+        .hero-gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(11, 15, 20, 0.95) 40%, rgba(11, 15, 20, 0.2) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .hero-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            background: var(--primary-glow);
+            padding: 4px 12px;
+            border-radius: 20px;
+            width: fit-content;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .hero-title {
+            font-size: 2.35rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            line-height: 1.25;
+            margin-top: 6px;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Dashboard Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: var(--card-hover-color);
+            border-color: rgba(163, 230, 53, 0.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3), 0 0 20px rgba(163, 230, 53, 0.03);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+        }
+
+        .stat-card:hover .stat-icon {
+            color: var(--primary);
+            background: var(--primary-glow);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Colors for different metric states */
+        .stat-card:nth-child(2):hover .stat-icon {
+            color: var(--accent-orange);
+            background: var(--accent-orange-glow);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .stat-progress-container {
+            margin-top: auto;
+        }
+
+        .stat-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .stat-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 10px;
+            width: 0%; /* Animated on load via JS */
+            transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stat-card:nth-child(2) .stat-progress-fill {
+            background: var(--accent-orange);
+        }
+
+        .stat-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .trend-up {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Two Columns Main Workspace */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 32px;
+        }
+
+        .workspace-column {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Premium Card Layout Base */
+        .mana-card {
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: var(--shadow-subtle);
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--text-secondary);
+        }
+
+        .card-action-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .card-action-text:hover {
+            color: var(--primary);
+            transform: translateX(-3px);
+        }
+
+        /* Focus Timer Premium Block */
+        .focus-timer-card {
+            background: radial-gradient(circle at 10% 20%, rgba(23, 28, 35, 1) 0%, rgba(11, 15, 20, 0.95) 100%);
+            border: 1px solid rgba(163, 230, 53, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ambient glowing circles behind timer */
+        .timer-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
+            z-index: 1;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .timer-glow.running {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(163, 230, 53, 0.2) 0%, rgba(0,0,0,0) 70%);
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .timer-display-container {
+            position: relative;
+            z-index: 2;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-circle-svg {
+            transform: rotate(-90deg);
+            width: 220px;
+            height: 220px;
+        }
+
+        .timer-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.03);
+            stroke-width: 6;
+        }
+
+        .timer-circle-progress {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 628; /* 2 * PI * r (r=100) */
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-text {
+            position: absolute;
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -1px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-modes {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 24px;
+        }
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 18px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .preset-btn:hover, .preset-btn.active {
+            background: var(--primary-glow);
+            color: var(--primary);
+            border-color: rgba(163, 230, 53, 0.3);
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .control-btn {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            transition: var(--transition-smooth);
+            font-family: var(--font-family);
+            font-weight: 700;
+        }
+
+        .btn-start {
+            background: var(--primary);
+            color: #0B0F14;
+            padding: 14px 36px;
+            font-size: 1rem;
+            border: none;
+            box-shadow: 0 10px 25px var(--primary-glow-strong);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(163, 230, 53, 0.4);
+            filter: brightness(1.05);
+        }
+
+        .btn-pause {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 14px 24px;
+            font-size: 1rem;
+        }
+
+        .btn-pause:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-reset {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .btn-reset:hover {
+            color: var(--accent-orange);
+            border-color: var(--accent-orange-glow);
+            background: rgba(249, 115, 22, 0.05);
+        }
+
+        /* Custom Charts Layout styling */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Subjects list styling */
+        .subject-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .subject-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px 20px;
+            transition: var(--transition-smooth);
+        }
+
+        .subject-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(163, 230, 53, 0.1);
+        }
+
+        .subject-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-grow: 1;
+        }
+
+        .subject-check-wrapper {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .subject-checkbox {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .custom-checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .subject-check-wrapper:hover .custom-checkmark {
+            border-color: var(--primary);
+        }
+
+        .subject-checkbox:checked ~ .custom-checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow-strong);
+        }
+
+        .custom-checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 8px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid #0B0F14;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .subject-checkbox:checked ~ .custom-checkmark:after {
+            display: block;
+        }
+
+        .subject-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+
+        .subject-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+        }
+
+        .subject-checkbox:checked ~ .subject-details .subject-name {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .subject-progress-bar-wrapper {
+            width: 120px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .subject-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .subject-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        /* Tests Table Premium Grid */
+        .tests-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+        }
+
+        .tests-table th {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tests-table td {
+            font-size: 0.85rem;
+            padding: 16px;
+            border-bottom: 1px solid rgba(154, 164, 178, 0.04);
+            color: var(--text-primary);
+        }
+
+        .test-subject-cell {
+            font-weight: 700;
+        }
+
+        .badge-status {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-status.success {
+            background: rgba(163, 230, 53, 0.1);
+            color: var(--primary);
+        }
+
+        .badge-status.alert {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--accent-orange);
+        }
+
+        /* Daily Inspirational Quote panel */
+        .quote-card {
+            background: linear-gradient(135deg, rgba(23, 28, 35, 1) 0%, rgba(11, 15, 20, 0.95) 100%);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-icon {
+            position: absolute;
+            left: 24px;
+            bottom: 20px;
+            font-size: 5rem;
+            color: rgba(163, 230, 53, 0.04);
+            pointer-events: none;
+        }
+
+        .quote-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1.8;
+            color: #fff;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-author {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quote-author:before {
+            content: "";
+            width: 16px;
+            height: 1px;
+            background: var(--text-secondary);
+            display: inline-block;
+        }
+
+        /* Ambient subtle glowing nodes */
+        .ambient-node {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-orange-glow) 0%, rgba(0,0,0,0) 70%);
+            top: -50px;
+            left: -50px;
+            pointer-events: none;
+        }
+
+        /* Footer styling */
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .footer i {
+            color: var(--text-secondary);
+            margin: 0 4px;
+            animation: heartBeat 2s infinite;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        /* Notification Modal Container */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(11, 15, 20, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mana-modal {
+            background: var(--card-color);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 480px;
+            padding: 32px;
+            box-shadow: var(--shadow-premium);
+            transform: scale(0.9);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .modal-overlay.active .mana-modal {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive Media Queries */
+        @media (max-width: 1280px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-right: 0;
+                padding: 32px 24px;
+            }
+            .hamburger-menu {
+                display: flex !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+            .hero-banner {
+                padding: 24px;
+                height: auto;
+                min-height: 180px;
+            }
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Premium Mobile Hamburger Menu Trigger */
+        .hamburger-menu {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .hamburger-menu:hover {
+            background: var(--card-hover-color);
+            color: var(--primary);
+        }
+
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 68px;
+            background: rgba(23, 28, 35, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--border-color);
+            align-items: center;
+            justify-content: space-around;
+            z-index: 900;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-width: 48px;
+            min-height: 48px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-family);
+            font-size: 0.65rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.15rem;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--primary);
+        }
+
+        /* ============ MOBILE-FIRST: Bottom Navigation replaces Sidebar ============ */
+        @media (max-width: 767px) {
+            .sidebar {
+                display: none !important;
+            }
+            .hamburger-menu {
+                display: none !important;
+            }
+            .main-content {
+                margin-right: 0;
+                padding: 20px 16px 92px 16px; /* extra bottom space for bottom-nav */
+            }
+            .bottom-nav {
+                display: flex;
+            }
+        }
+
+        /* ============ STAGE 2: HERO REDESIGN & VISUAL HIERARCHY ============ */
+
+        .hero-greeting-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-personal-greeting {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .hero-illustration {
+            position: absolute;
+            left: 28px;
+            bottom: 0;
+            width: 150px;
+            height: 150px;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .hero-goal-block {
+            margin-top: 22px;
+            background: rgba(0, 0, 0, 0.18);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px;
+            padding: 18px 20px;
+            max-width: 460px;
+        }
+
+        .hero-goal-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .hero-goal-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .hero-goal-value {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .hero-goal-progress-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .hero-goal-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7BAE4A, var(--primary));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-goal-message {
+            font-size: 0.82rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .hero-cta-btn {
+            margin-top: 22px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--primary);
+            color: #0B0F14;
+            border: none;
+            border-radius: 18px;
+            padding: 0 32px;
+            height: 58px;
+            font-family: var(--font-family);
+            font-weight: 800;
+            font-size: 1.05rem;
+            cursor: pointer;
+            box-shadow: 0 12px 32px var(--primary-glow-strong);
+            transition: var(--transition-smooth);
+        }
+
+        .hero-cta-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 16px 40px var(--primary-glow-strong);
+            filter: brightness(1.05);
+        }
+
+        .hero-cta-btn:active { transform: translateY(0) scale(0.98); }
+
+        .hero-cta-btn i { font-size: 1.2rem; }
+
+        /* Compact stat cards: used to visually demote the dashboard's secondary stats grid */
+        .stats-grid--compact .stat-card {
+            padding: 16px 18px;
+            gap: 10px;
+        }
+        .stats-grid--compact .stat-value {
+            font-size: 1.25rem;
+        }
+        .stats-grid--compact .stat-title {
+            font-size: 0.72rem;
+        }
+        .stats-grid--compact .stat-footer {
+            font-size: 0.7rem;
+        }
+
+        /* Dedicated "امروز هدفت" + "دروس امروز" cards get slightly more visual weight than compact stats,
+           but stay lighter than the Hero itself */
+        .priority-card-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        /* Section jump link out of the dashboard, used to push secondary content to its own page */
+        .see-more-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .see-more-link:hover { color: var(--primary); }
+
+        /* Calm toast for short motivational / congratulatory messages (no gamification) */
+        .mana-toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            z-index: 500;
+        }
+
+        .mana-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .mana-toast i { color: var(--primary); }
+
+        @media (max-width: 767px) {
+            .mana-toast { bottom: 82px; width: calc(100% - 48px); justify-content: center; }
+        }
+
+        @media (max-width: 767px) {
+            .hero-illustration { display: none; }
+            .hero-cta-btn { width: 100%; justify-content: center; }
+            .hero-goal-block { max-width: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- RIGHT SIDEBAR (RTL perspective) -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+            <div class="logo-text">مانا</div>
+            <span class="logo-tagline">V1.0</span>
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-section-label">اصلی</li>
+            <li class="nav-item active" data-tab="dashboard">
+                <a href="#dashboard" onclick="switchPage(event, 'dashboard')"><i class="fa-solid fa-chart-pie"></i> داشبورد اصلی</a>
+            </li>
+            <li class="nav-item" data-tab="timer">
+                <a href="#timer" onclick="switchPage(event, 'timer')"><i class="fa-solid fa-hourglass-half"></i> تایمر مطالعه</a>
+            </li>
+
+            <li class="nav-section-label">برنامه‌ریزی</li>
+            <li class="nav-item" data-tab="subjects">
+                <a href="#subjects" onclick="switchPage(event, 'subjects')"><i class="fa-solid fa-book-open"></i> ثبت مطالعه</a>
+            </li>
+
+            <li class="nav-section-label">تحلیل</li>
+            <li class="nav-item" data-tab="stats">
+                <a href="#stats" onclick="switchPage(event, 'stats')"><i class="fa-solid fa-chart-line"></i> آمار و گزارشات</a>
+            </li>
+            <li class="nav-item" data-tab="tests">
+                <a href="#tests" onclick="switchPage(event, 'tests')"><i class="fa-solid fa-graduation-cap"></i> آزمون‌های اخیر</a>
+            </li>
+
+            <li class="nav-section-label">حساب کاربری</li>
+            <li class="nav-item" data-tab="profile">
+                <a href="#profile" onclick="switchPage(event, 'profile')"><i class="fa-solid fa-user"></i> پروفایل من</a>
+            </li>
+            <li class="nav-item" data-tab="settings">
+                <a href="#settings" onclick="switchPage(event, 'settings')"><i class="fa-solid fa-sliders"></i> تنظیمات سیستم</a>
+            </li>
+        </ul>
+
+        <!-- User Progress Dashboard in Sidebar -->
+        <div class="sidebar-profile" onclick="switchPage(event, 'profile')" style="cursor: pointer;">
+            <div class="profile-header">
+                <div class="profile-avatar">م</div>
+                <div class="profile-info">
+                    <span class="profile-name">آرمینا کعب زاده</span>
+                    <span class="profile-level">قهرمان سطح ۴ مانا</span>
+                </div>
+            </div>
+            <div class="xp-text">
+                <span>پیشرفت کلی سطح</span>
+                <span id="xp-text-val">680 / 1000 XP</span>
+            </div>
+            <div class="xp-progress-bar">
+                <div class="xp-fill" id="sidebar-xp-fill"></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-content">
+        <!-- HEADER ROW -->
+        <header class="header">
+            <div class="welcome-section">
+                <h1>سلام قهرمان من 💚</h1>
+                <p>امروز را با یک گام هدفمند دیگر بساز؛ مانا در کنار توست.</p>
+            </div>
+
+            <div class="header-actions">
+                <!-- Hamburger menu for tablet/mobile viewports -->
+                <button class="hamburger-menu" id="hamburger-toggle" onclick="toggleSidebar()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div class="calendar-badge">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span id="current-persian-date">یکشنبه، ۷ تیر ۱۴۰۵</span>
+                </div>
+
+                <div class="action-button" onclick="showNotificationModal()">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="badge-dot"></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============ PAGE: DASHBOARD ============ -->
+        <div class="page-content active" id="page-dashboard">
+
+        <!-- PREMIUM HERO BANNER WITH GRADIENT LAYER -->
+        <section class="hero-banner">
+            <!-- Apple-Style Abstract Golden Sunlit Forest SVG Background -->
+            <svg class="hero-banner-art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300" preserveAspectRatio="none">
+                <defs>
+                    <radialGradient id="sunlight" cx="80%" cy="20%" r="60%">
+                        <stop offset="0%" stop-color="#F97316" stop-opacity="0.25" />
+                        <stop offset="50%" stop-color="#A3E635" stop-opacity="0.1" />
+                        <stop offset="100%" stop-color="#0B0F14" stop-opacity="0" />
+                    </radialGradient>
+                    <linearGradient id="forest-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#0F172A" stop-opacity="0.8"/>
+                        <stop offset="50%" stop-color="#14532D" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#0F172A" stop-opacity="0.9"/>
+                    </linearGradient>
+                </defs>
+                <rect width="1000" height="300" fill="url(#forest-gradient)" />
+                <circle cx="800" cy="60" r="280" fill="url(#sunlight)" />
+                <!-- Stylized abstract forest trees -->
+                <path d="M100 300 L150 180 L200 300 Z" fill="#1e293b" opacity="0.3"/>
+                <path d="M160 300 L220 150 L280 300 Z" fill="#0f172a" opacity="0.4"/>
+                <path d="M300 300 L380 120 L460 300 Z" fill="#14532D" opacity="0.2"/>
+                <path d="M420 300 L500 140 L580 300 Z" fill="#1e293b" opacity="0.15"/>
+                <path d="M750 300 L850 100 L950 300 Z" fill="#14532D" opacity="0.25"/>
+            </svg>
+
+            <!-- Calming reading illustration: open book with a small sprout growing from it -->
+            <svg class="hero-illustration" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="100" cy="178" rx="70" ry="8" fill="#000" opacity="0.15"/>
+                <path d="M40 150 Q100 165 160 150 L160 130 Q100 145 40 130 Z" fill="#1E252F" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                <path d="M40 130 Q100 145 100 145 L100 60 Q70 50 40 60 Z" fill="#171C23" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+                <path d="M160 130 Q100 145 100 145 L100 60 Q130 50 160 60 Z" fill="#1E252F" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+                <path d="M52 68 L88 76 M52 82 L88 90 M52 96 L84 103" stroke="rgba(231,231,231,0.25)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M148 68 L112 76 M148 82 L112 90 M148 96 L116 103" stroke="rgba(231,231,231,0.25)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M100 60 Q100 30 100 15" stroke="#7BAE4A" stroke-width="3" stroke-linecap="round" fill="none"/>
+                <path d="M100 30 Q80 22 78 8 Q96 12 100 30 Z" fill="#A3E635"/>
+                <path d="M100 22 Q120 15 124 2 Q104 4 100 22 Z" fill="#7BAE4A"/>
+            </svg>
+
+            <div class="hero-gradient-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-greeting-row">
+                    <div>
+                        <div class="hero-personal-greeting" id="hero-personal-greeting">سلام قهرمان 🌱</div>
+                        <div class="hero-tag">فلسفه مانا</div>
+                        <h2 class="hero-title">هر روز، یک قدم ماندگار.</h2>
+                    </div>
+                </div>
+
+                <div class="hero-goal-block">
+                    <div class="hero-goal-row">
+                        <span class="hero-goal-label">هدف امروز</span>
+                        <span class="hero-goal-value"><span id="hero-goal-current">۴.۲</span> از <span id="hero-goal-target">۶</span> ساعت</span>
+                    </div>
+                    <div class="hero-goal-progress-track">
+                        <div class="hero-goal-progress-fill" id="hero-goal-progress-fill" style="width: 70%;"></div>
+                    </div>
+                    <div class="hero-goal-message" id="hero-goal-message">فقط ۱.۸ ساعت تا رسیدن به هدفت باقی مانده 💪</div>
+                </div>
+
+                <button class="hero-cta-btn" onclick="startStudyFromFab()">
+                    <i class="fa-solid fa-play"></i>
+                    شروع مطالعه
+                </button>
+            </div>
+        </section>
+
+        <!-- TODAY'S GOAL + TODAY'S SUBJECTS: highest-priority content after the Hero -->
+        <section class="workspace-grid">
+            <div class="workspace-column">
+                <!-- TODAY'S SUBJECTS TRACKER -->
+                <div class="mana-card">
+                    <div class="card-header">
+                        <span class="priority-card-title">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                            برنامه درسی امروز شما
+                        </span>
+                        <span class="card-action-text" id="subject-progress-indicator">۳ از ۴ انجام شده</span>
+                    </div>
+
+                    <div class="subject-list js-subject-list" id="dashboard-subject-list">
+                        <!-- Rendered dynamically by renderAllSubjectLists() from AppState.subjects -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="workspace-column">
+                <!-- DAILY INSPIRATIONAL CARD (short, calm — not gamified) -->
+                <div class="mana-card quote-card">
+                    <div class="ambient-node" style="bottom: -50px; left: auto; right: -50px; background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);"></div>
+                    <i class="fa-solid fa-quote-left quote-icon"></i>
+                    <p class="quote-text" id="dashboard-quote-text">امروز عالی پیش رفتی.</p>
+                    <div class="quote-author">مانا</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECONDARY METRICS: visually smaller & quieter than the goal/subjects above -->
+        <section class="stats-grid stats-grid--compact">
+            <!-- CARD 1 -->
+            <div class="stat-card" data-metric="hours">
+                <div class="stat-card-header">
+                    <span class="stat-title">ساعت مطالعه امروز</span>
+                    <div class="stat-icon"><i class="fa-regular fa-clock"></i></div>
+                </div>
+                <div class="stat-value"><span id="metric-today-hours">۴.۲</span> ساعت</div>
+                <div class="stat-progress-container">
+                    <div class="stat-progress-bar">
+                        <div class="stat-progress-fill" id="progress-today-hours" style="width: 70%"></div>
+                    </div>
+                    <div class="stat-footer">
+                        <span>هدف امروز: ۶ ساعت</span>
+                        <span class="trend-up">۷۰٪ تکمیل شده</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="stat-card" data-metric="streak">
+                <div class="stat-card-header">
+                    <span class="stat-title">پیوستگی ممتد (Streak)</span>
+                    <div class="stat-icon" style="color: var(--accent-orange)"><i class="fa-solid fa-fire"></i></div>
+                </div>
+                <div class="stat-value"><span id="metric-streak">۱۲</span> روز</div>
+                <div class="stat-progress-container">
+                    <div class="stat-progress-bar">
+                        <div class="stat-progress-fill" id="progress-streak" style="width: 85%"></div>
+                    </div>
+                    <div class="stat-footer">
+                        <span>رکورد قبلی: ۱۵ روز</span>
+                        <span class="trend-up" style="color: var(--accent-orange)">رکورد جدید نزدیکه! 🔥</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="stat-card" data-metric="goal">
+                <div class="stat-card-header">
+                    <span class="stat-title">درصد موفقیت اهداف امروز</span>
+                    <div class="stat-icon"><i class="fa-regular fa-circle-check"></i></div>
+                </div>
+                <div class="stat-value"><span id="metric-tasks-done">۳</span> از <span id="metric-tasks-total">۴</span></div>
+                <div class="stat-progress-container">
+                    <div class="stat-progress-bar">
+                        <div class="stat-progress-fill" id="progress-tasks" style="width: 75%"></div>
+                    </div>
+                    <div class="stat-footer">
+                        <span>دروس تمام شده امروز</span>
+                        <span class="trend-up" id="tasks-percentage">۷۵٪ موفق</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 4 -->
+            <div class="stat-card" data-metric="monthly">
+                <div class="stat-card-header">
+                    <span class="stat-title">مطالعه ماه جاری</span>
+                    <div class="stat-icon"><i class="fa-regular fa-calendar-days"></i></div>
+                </div>
+                <div class="stat-value"><span id="metric-monthly-hours">۱۲۸</span> ساعت</div>
+                <div class="stat-progress-container">
+                    <div class="stat-progress-bar">
+                        <div class="stat-progress-fill" id="progress-monthly" style="width: 64%"></div>
+                    </div>
+                    <div class="stat-footer">
+                        <span>هدف ماهانه: ۲۰۰ ساعت</span>
+                        <span class="trend-up">۶۴٪ تکمیل شده</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="see-more-link" onclick="switchPage(null, 'stats')">
+            مشاهده آمار و نمودارهای کامل <i class="fa-solid fa-arrow-left"></i>
+        </div>
+
+        </div>
+        <!-- ============ END PAGE: DASHBOARD ============ -->
+
+        <!-- ============ PAGE: FOCUS TIMER ============ -->
+        <div class="page-content" id="page-timer">
+
+            <div class="page-header-row">
+                <div>
+                    <h2 class="page-title"><i class="fa-solid fa-hourglass-half"></i> تایمر تمرکز</h2>
+                    <p class="page-subtitle">با تکنیک پومودورو، بدون حواس‌پرتی روی درس امروزت متمرکز شو.</p>
+                </div>
+                <div class="page-badges">
+                    <div class="mini-stat-badge"><i class="fa-solid fa-fire"></i> ۳ جلسه امروز</div>
+                    <div class="mini-stat-badge"><i class="fa-regular fa-clock"></i> ۴.۲ ساعت تمرکز</div>
+                </div>
+            </div>
+
+            <div class="timer-page-grid">
+
+                <!-- BIG FOCUS TIMER MODULE -->
+                <div class="mana-card focus-timer-card focus-timer-card--large">
+                    <div class="ambient-node"></div>
+                    <div class="timer-glow js-timer-glow"></div>
+
+                    <div class="card-header">
+                        <span class="card-title">
+                            <i class="fa-regular fa-hourglass-half"></i>
+                            مرکز تمرکز مانا (پومودورو)
+                        </span>
+                        <span class="card-action-text" onclick="resetDefaultTimer()">ریست اولیه</span>
+                    </div>
+
+                    <!-- Mode Selectors (synced live with dashboard widget) -->
+                    <div class="timer-modes">
+                        <button class="preset-btn" data-duration="25" onclick="setTimerDuration(25)">۲۵ دقیقه (تمرکز کوتاه)</button>
+                        <button class="preset-btn active" data-duration="50" onclick="setTimerDuration(50)">۵۰ دقیقه (مانا تمرکز)</button>
+                        <button class="preset-btn" data-duration="90" onclick="setTimerDuration(90)">۹۰ دقیقه (تمرکز عمیق)</button>
+                    </div>
+
+                    <!-- Custom SVG Circular Progress Bar with Text inside -->
+                    <div class="timer-display-container">
+                        <svg class="timer-circle-svg" viewBox="0 0 220 220">
+                            <circle class="timer-circle-bg" cx="110" cy="110" r="100"></circle>
+                            <circle class="timer-circle-progress js-timer-ring" cx="110" cy="110" r="100"></circle>
+                        </svg>
+                        <div class="timer-text js-timer-countdown">50:00</div>
+                    </div>
+
+                    <!-- Timer Controls -->
+                    <div class="timer-controls">
+                        <button class="control-btn btn-start js-timer-start-btn" onclick="toggleTimer()">شروع تمرکز</button>
+                        <button class="control-btn btn-pause js-timer-pause-btn" style="display:none;" onclick="toggleTimer()">توقف موقت</button>
+                        <button class="control-btn btn-reset" onclick="resetTimer()"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    </div>
+                </div>
+
+                <!-- SIDE COLUMN: TODAY'S SESSION LOG + FOCUS TIP -->
+                <div class="workspace-column">
+
+                    <div class="mana-card">
+                        <div class="card-header">
+                            <span class="card-title">
+                                <i class="fa-solid fa-list-check"></i>
+                                جلسات امروز
+                            </span>
+                            <span class="card-action-text">مشاهده همه</span>
+                        </div>
+                        <ul class="session-log-list">
+                            <li class="session-log-item">
+                                <div class="session-log-icon"><i class="fa-solid fa-check"></i></div>
+                                <div class="session-log-info">
+                                    <span class="session-log-subject">زیست‌شناسی دوازدهم</span>
+                                    <span class="session-log-meta">۰۸:۱۰ صبح</span>
+                                </div>
+                                <span class="session-log-duration">۵۰ دقیقه</span>
+                            </li>
+                            <li class="session-log-item">
+                                <div class="session-log-icon"><i class="fa-solid fa-check"></i></div>
+                                <div class="session-log-info">
+                                    <span class="session-log-subject">شیمی عمومی و آلی</span>
+                                    <span class="session-log-meta">۱۰:۰۰ صبح</span>
+                                </div>
+                                <span class="session-log-duration">۲۵ دقیقه</span>
+                            </li>
+                            <li class="session-log-item">
+                                <div class="session-log-icon"><i class="fa-solid fa-check"></i></div>
+                                <div class="session-log-info">
+                                    <span class="session-log-subject">فیزیک (مکانیک سینماتیک)</span>
+                                    <span class="session-log-meta">۱۲:۴۵ ظهر</span>
+                                </div>
+                                <span class="session-log-duration">۹۰ دقیقه</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mana-card quote-card">
+                        <div class="ambient-node" style="bottom: -50px; left: auto; right: -50px; background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);"></div>
+                        <i class="fa-solid fa-quote-left quote-icon"></i>
+                        <p class="quote-text">«قبل از شروع، گوشی را بی‌صدا کن و فقط یک درس را جلوی خودت بگذار. تمرکز یعنی حذف انتخاب‌های اضافه.»</p>
+                        <div class="quote-author">نکته تمرکز مانا</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ============ PAGE: TODAY'S SUBJECTS ============ -->
+        <div class="page-content" id="page-subjects">
+
+            <div class="page-header-row">
+                <div>
+                    <h2 class="page-title"><i class="fa-solid fa-book-open"></i> دروس امروز</h2>
+                    <p class="page-subtitle">درسی که خواندی و مدت مطالعه‌اش را ثبت کن، بعد از خواندن تیکش بزن تا در حافظه مانا ذخیره شود.</p>
+                </div>
+                <div class="page-badges">
+                    <div class="mini-stat-badge"><i class="fa-solid fa-check-double"></i> <span id="subjects-done-badge">۰ از ۰ انجام شده</span></div>
+                    <div class="mini-stat-badge"><i class="fa-regular fa-clock"></i> <span id="subjects-hours-badge">۰ ساعت ثبت‌شده</span></div>
+                </div>
+            </div>
+
+            <!-- ADD NEW SUBJECT ENTRY FORM -->
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title">
+                        <i class="fa-solid fa-plus"></i>
+                        افزودن درس جدید
+                    </span>
+                </div>
+                <form class="add-subject-form" onsubmit="return addSubjectFromForm(event)">
+                    <div class="form-field">
+                        <label for="input-subject-name">نام درس</label>
+                        <input type="text" id="input-subject-name" class="form-input" placeholder="مثلاً: زیست‌شناسی دوازدهم" required>
+                    </div>
+                    <div class="form-field field-hours">
+                        <label for="input-subject-hours">ساعت مطالعه</label>
+                        <input type="number" id="input-subject-hours" class="form-input" placeholder="۱.۵" min="0.1" step="0.1" required>
+                    </div>
+                    <button type="submit" class="btn-add-subject"><i class="fa-solid fa-plus"></i> افزودن به لیست امروز</button>
+                </form>
+            </div>
+
+            <!-- SUBJECT CHECKLIST -->
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                        چک‌لیست درس‌های امروز
+                    </span>
+                    <span class="card-action-text" id="subject-progress-indicator-page">۰ از ۰ انجام شده</span>
+                </div>
+
+                <div class="subject-list js-subject-list" id="page-subjects-list">
+                    <!-- Rendered dynamically by renderAllSubjectLists() from AppState.subjects -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ PAGE: STATS & REPORTS ============ -->
+        <div class="page-content" id="page-stats">
+
+            <div class="page-header-row">
+                <div>
+                    <h2 class="page-title"><i class="fa-solid fa-chart-line"></i> آمار و گزارشات</h2>
+                    <p class="page-subtitle">عملکرد مطالعه‌ات را زیر ذره‌بین ببر و روند پیشرفتت را دنبال کن.</p>
+                </div>
+                <div class="range-tabs">
+                    <button class="range-tab" data-range="today" onclick="setStatsRange('today')">امروز</button>
+                    <button class="range-tab active" data-range="week" onclick="setStatsRange('week')">این هفته</button>
+                    <button class="range-tab" data-range="month" onclick="setStatsRange('month')">این ماه</button>
+                </div>
+            </div>
+
+            <!-- SUMMARY CARDS -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">مجموع ساعات مطالعه</span>
+                        <div class="stat-icon"><i class="fa-regular fa-clock"></i></div>
+                    </div>
+                    <div class="stat-value"><span id="stats-total-hours">۰</span> ساعت</div>
+                    <div class="stat-progress-container">
+                        <div class="stat-footer">
+                            <span id="stats-range-label">این هفته</span>
+                            <span class="trend-up" id="stats-total-trend">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">میانگین روزانه</span>
+                        <div class="stat-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                    </div>
+                    <div class="stat-value"><span id="stats-avg-hours">۰</span> ساعت</div>
+                    <div class="stat-progress-container">
+                        <div class="stat-footer">
+                            <span>در هر روز مطالعه‌شده</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">بهترین روز</span>
+                        <div class="stat-icon" style="color: var(--accent-orange)"><i class="fa-solid fa-star"></i></div>
+                    </div>
+                    <div class="stat-value"><span id="stats-best-day">—</span></div>
+                    <div class="stat-progress-container">
+                        <div class="stat-footer">
+                            <span id="stats-best-day-hours">—</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">جلسات پومودورو</span>
+                        <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                    </div>
+                    <div class="stat-value"><span id="stats-sessions-count">۰</span> جلسه</div>
+                    <div class="stat-progress-container">
+                        <div class="stat-footer">
+                            <span>تمرکز کامل‌شده</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHARTS -->
+            <div class="two-col-chart-grid">
+                <div class="mana-card">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <i class="fa-solid fa-chart-column"></i>
+                            روند مطالعه
+                        </span>
+                    </div>
+                    <div class="chart-container chart-container--tall">
+                        <canvas class="js-chart-weekly"></canvas>
+                    </div>
+                </div>
+
+                <div class="mana-card">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            توزیع درسی
+                        </span>
+                    </div>
+                    <div class="chart-container chart-container--tall">
+                        <canvas class="js-chart-subject-distribution"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBJECT BREAKDOWN TABLE -->
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title">
+                        <i class="fa-solid fa-table-list"></i>
+                        تفکیک ساعات مطالعه بر اساس درس
+                    </span>
+                </div>
+                <table class="tests-table">
+                    <thead>
+                        <tr>
+                            <th>نام درس</th>
+                            <th>ساعت مطالعه</th>
+                            <th>وضعیت</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stats-breakdown-table-body">
+                        <!-- Rendered dynamically by renderStatsBreakdownTable() -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- STREAK HEATMAP -->
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title">
+                        <i class="fa-solid fa-fire"></i>
+                        نقشه پیوستگی مطالعه
+                    </span>
+                    <span class="card-action-text">۱۲ روز متوالی 🔥</span>
+                </div>
+                <div class="heatmap-scroll">
+                    <div class="heatmap-grid" id="streak-heatmap-grid">
+                        <!-- Rendered dynamically by renderStreakHeatmap() -->
+                    </div>
+                </div>
+                <div class="heatmap-legend">
+                    <span>کم</span>
+                    <div class="heatmap-cell" data-level="0"></div>
+                    <div class="heatmap-cell" data-level="1"></div>
+                    <div class="heatmap-cell" data-level="2"></div>
+                    <div class="heatmap-cell" data-level="3"></div>
+                    <div class="heatmap-cell" data-level="4"></div>
+                    <span>زیاد</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============ PAGE: RECENT TESTS ============ -->
+        <div class="page-content" id="page-tests">
+
+            <div class="page-header-row">
+                <div>
+                    <h2 class="page-title"><i class="fa-solid fa-graduation-cap"></i> آزمون‌های اخیر</h2>
+                    <p class="page-subtitle">کارنامه‌ی خودآزمون‌هایی که تا الان زدی.</p>
+                </div>
+            </div>
+
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title">
+                        <i class="fa-solid fa-award"></i>
+                        آخرین کارنامه و خودآزمون‌ها
+                    </span>
+                </div>
+
+                <table class="tests-table">
+                    <thead>
+                        <tr>
+                            <th>نام درس و مبحث</th>
+                            <th>صحیح</th>
+                            <th>غلط</th>
+                            <th>درصد موفقیت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="test-subject-cell">شیمی آزمون جامع ۳</td>
+                            <td style="color: var(--primary);">۲۴</td>
+                            <td style="color: var(--accent-orange);">۴</td>
+                            <td><span class="badge-status success">۸۶٪ عالی</span></td>
+                        </tr>
+                        <tr>
+                            <td class="test-subject-cell">ریاضی مشتق و کاربرد</td>
+                            <td style="color: var(--primary);">۱۸</td>
+                            <td style="color: var(--accent-orange);">۷</td>
+                            <td><span class="badge-status success">۷۲٪ خوب</span></td>
+                        </tr>
+                        <tr>
+                            <td class="test-subject-cell">فیزیک الکتریسیته ساکن</td>
+                            <td style="color: var(--primary);">۱۲</td>
+                            <td style="color: var(--accent-orange);">۱۰</td>
+                            <td><span class="badge-status alert">۴۸٪ نیازمند تمرین</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- ============ PAGE: SETTINGS ============ -->
+        <div class="page-content" id="page-settings">
+        </div>
+
+        <!-- ============ PAGE: PROFILE ============ -->
+        <div class="page-content" id="page-profile">
+
+            <!-- 1. HERO PROFILE CARD -->
+            <div class="mana-card profile-hero-card">
+                <div class="ambient-node"></div>
+                <div class="profile-hero-left">
+                    <div class="profile-hero-avatar">م</div>
+                    <div>
+                        <div class="profile-hero-name">قهرمان من</div>
+                        <div class="profile-hero-tagline">«هر روز یک قدم ماندگار.»</div>
+                        <div class="profile-hero-meta">
+                            <span class="profile-chip"><i class="fa-solid fa-layer-group"></i> Level ۱۲</span>
+                            <span class="profile-chip"><i class="fa-solid fa-bolt"></i> ۲۴۵۰ / ۵۰۰۰ XP</span>
+                            <span class="profile-chip badge-chip"><i class="fa-solid fa-shield-halved"></i> Study Warrior</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-edit-profile" onclick="playSoftClickSound()"><i class="fa-solid fa-pen"></i> ویرایش پروفایل</button>
+            </div>
+
+            <!-- 2. STAT CARDS -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">کل ساعات مطالعه</span>
+                        <div class="stat-icon"><i class="fa-regular fa-clock"></i></div>
+                    </div>
+                    <div class="stat-value">۱۴۵ ساعت</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">استریک فعلی</span>
+                        <div class="stat-icon" style="color: var(--accent-orange)"><i class="fa-solid fa-fire"></i></div>
+                    </div>
+                    <div class="stat-value">۱۷ روز</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">اهداف تکمیل‌شده</span>
+                        <div class="stat-icon"><i class="fa-regular fa-circle-check"></i></div>
+                    </div>
+                    <div class="stat-value">۳۲</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <span class="stat-title">میانگین مطالعه روزانه</span>
+                        <div class="stat-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                    </div>
+                    <div class="stat-value">۴.۸ ساعت</div>
+                </div>
+            </section>
+
+            <!-- 4. LEVEL GROWTH -->
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title"><i class="fa-solid fa-chart-line"></i> رشد سطح</span>
+                    <span class="card-action-text">فقط ۲۵۵۰ XP تا سطح بعدی</span>
+                </div>
+                <div class="level-growth-row">
+                    <div class="level-growth-badge">۱۲</div>
+                    <div style="text-align:left; flex-grow:1; margin-right:16px;">
+                        <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:6px;">۲۴۵۰ / ۵۰۰۰ XP</div>
+                    </div>
+                </div>
+                <div class="xp-progress-bar-lg"><div class="xp-fill" style="width: 49%;"></div></div>
+            </div>
+
+            <!-- ویژگی اختصاصی مانا: درخت رشد -->
+            <div class="mana-card growth-tree-card">
+                <div class="ambient-node" style="background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);"></div>
+                <div class="growth-tree-visual" id="growth-tree-emoji">🌳</div>
+                <div class="growth-tree-text">
+                    <h3>درخت رشد مانا</h3>
+                    <p>گیاه تو با هر ساعت مطالعه و هر XP جدید کمی بزرگ‌تر می‌شود، تا روزی یک درخت تنومند شود.</p>
+                    <p style="color: var(--text-primary); font-weight: 700; margin-top: 8px;">«هر روز یک قدم ماندگار»</p>
+                </div>
+            </div>
+
+            <!-- 3. ACHIEVEMENTS -->
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title"><i class="fa-solid fa-medal"></i> دستاوردها</span>
+                </div>
+                <p class="page-subtitle" style="margin-top: -8px; margin-bottom: 18px;">نشانه‌هایی از مسیری که تا الان رفتی.</p>
+                <div class="achievements-grid">
+                    <div class="achievement-badge"><div class="badge-emoji">🔥</div><div class="badge-name">۷ روز متوالی</div></div>
+                    <div class="achievement-badge"><div class="badge-emoji">📚</div><div class="badge-name">۱۰۰ ساعت مطالعه</div></div>
+                    <div class="achievement-badge"><div class="badge-emoji">🎯</div><div class="badge-name">شکارچی اهداف</div></div>
+                    <div class="achievement-badge"><div class="badge-emoji">🌱</div><div class="badge-name">تازه‌کار</div></div>
+                    <div class="achievement-badge locked"><div class="badge-emoji">🚀</div><div class="badge-name">استاد تمرکز</div></div>
+                    <div class="achievement-badge locked"><div class="badge-emoji">💎</div><div class="badge-name">دانش‌آموز الماسی</div></div>
+                </div>
+            </div>
+
+            <!-- 5 & 6: FAVORITE SUBJECTS + PERSONAL GOALS -->
+            <div class="two-col-chart-grid">
+                <div class="mana-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-heart"></i> درس‌های مورد علاقه</span>
+                    </div>
+                    <div class="subject-chip-grid">
+                        <div class="subject-color-chip" onclick="this.querySelector('.color-dot').style.background = pickRandomThemeColor()"><span class="color-dot" style="background:#A3E635;"></span> زیست</div>
+                        <div class="subject-color-chip" onclick="this.querySelector('.color-dot').style.background = pickRandomThemeColor()"><span class="color-dot" style="background:#F97316;"></span> شیمی</div>
+                        <div class="subject-color-chip" onclick="this.querySelector('.color-dot').style.background = pickRandomThemeColor()"><span class="color-dot" style="background:#38BDF8;"></span> ریاضی</div>
+                        <div class="subject-color-chip" onclick="this.querySelector('.color-dot').style.background = pickRandomThemeColor()"><span class="color-dot" style="background:#C084FC;"></span> فیزیک</div>
+                    </div>
+                    <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:14px;">روی هر درس بزن تا رنگش را عوض کنی.</p>
+                </div>
+
+                <div class="mana-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-bullseye"></i> اهداف شخصی</span>
+                    </div>
+                    <div class="goal-item"><div class="goal-icon"><i class="fa-solid fa-stethoscope"></i></div><span class="goal-name">قبولی پزشکی</span></div>
+                    <div class="goal-item"><div class="goal-icon"><i class="fa-brands fa-react"></i></div><span class="goal-name">یادگیری React</span></div>
+                    <div class="goal-item"><div class="goal-icon"><i class="fa-regular fa-clock"></i></div><span class="goal-name">مطالعه روزانه ۶ ساعت</span></div>
+                    <div class="goal-item"><div class="goal-icon"><i class="fa-solid fa-language"></i></div><span class="goal-name">حفظ لغات انگلیسی</span></div>
+                </div>
+            </div>
+
+            <!-- 7. ACTIVITY CALENDAR HEATMAP -->
+            <div class="mana-card">
+                <div class="card-header">
+                    <span class="card-title"><i class="fa-solid fa-calendar-days"></i> تقویم فعالیت</span>
+                </div>
+                <div class="heatmap-scroll">
+                    <div class="heatmap-grid" id="profile-heatmap-grid"></div>
+                </div>
+                <div class="heatmap-legend">
+                    <span>کم</span>
+                    <div class="heatmap-cell" data-level="0"></div>
+                    <div class="heatmap-cell" data-level="1"></div>
+                    <div class="heatmap-cell" data-level="2"></div>
+                    <div class="heatmap-cell" data-level="3"></div>
+                    <div class="heatmap-cell" data-level="4"></div>
+                    <span>زیاد</span>
+                </div>
+            </div>
+
+            <!-- 8. PROGRESS CHARTS -->
+            <div class="two-col-chart-grid">
+                <div class="mana-card">
+                    <div class="card-header"><span class="card-title"><i class="fa-solid fa-chart-column"></i> مطالعه هفتگی</span></div>
+                    <div class="chart-container chart-container--tall">
+                        <canvas class="js-chart-weekly" data-range="week"></canvas>
+                    </div>
+                </div>
+                <div class="mana-card">
+                    <div class="card-header"><span class="card-title"><i class="fa-solid fa-chart-column"></i> مطالعه ماهانه</span></div>
+                    <div class="chart-container chart-container--tall">
+                        <canvas class="js-chart-weekly" data-range="month"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. PERSONAL QUOTE -->
+            <div class="mana-card quote-card">
+                <div class="ambient-node" style="bottom: -50px; left: auto; right: -50px; background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);"></div>
+                <i class="fa-solid fa-quote-left quote-icon"></i>
+                <p class="quote-text">«هر روز یک قدم ماندگار.»</p>
+                <div class="quote-author">جمله انگیزشی شخصی من</div>
+            </div>
+
+            <!-- 10. THEME PERSONALIZATION -->
+            <div class="mana-card">
+                <div class="card-header"><span class="card-title"><i class="fa-solid fa-palette"></i> شخصی‌سازی ظاهر</span></div>
+                <div class="theme-swatch-grid">
+                    <button class="theme-swatch active" data-theme-color="#A3E635" onclick="applyThemeColor('#A3E635', this)"><span class="theme-swatch-color" style="background:#A3E635;"></span><span>مانا سبز</span></button>
+                    <button class="theme-swatch" data-theme-color="#38BDF8" onclick="applyThemeColor('#38BDF8', this)"><span class="theme-swatch-color" style="background:#38BDF8;"></span><span>آبی اقیانوس</span></button>
+                    <button class="theme-swatch" data-theme-color="#C084FC" onclick="applyThemeColor('#C084FC', this)"><span class="theme-swatch-color" style="background:#C084FC;"></span><span>بنفش</span></button>
+                    <button class="theme-swatch" data-theme-color="#FBBF24" onclick="applyThemeColor('#FBBF24', this)"><span class="theme-swatch-color" style="background:#FBBF24;"></span><span>کهربایی</span></button>
+                    <button class="theme-swatch" data-theme-color="#9AA4B2" onclick="applyThemeColor('#9AA4B2', this)"><span class="theme-swatch-color" style="background:#9AA4B2;"></span><span>تیره</span></button>
+                    <button class="theme-swatch" data-theme-color="#FFFFFF" onclick="applyThemeColor('#FFFFFF', this)"><span class="theme-swatch-color" style="background:#FFFFFF;"></span><span>OLED مشکی</span></button>
+                </div>
+            </div>
+
+            <!-- 11. NOTIFICATION SETTINGS -->
+            <div class="mana-card">
+                <div class="card-header"><span class="card-title"><i class="fa-solid fa-bell"></i> تنظیمات اعلان</span></div>
+                <div class="settings-row">
+                    <span class="settings-row-label"><i class="fa-regular fa-clock"></i> یادآوری مطالعه</span>
+                    <label class="switch"><input type="checkbox" checked onchange="playSoftClickSound()"><span class="switch-slider"></span></label>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-row-label"><i class="fa-solid fa-bullseye"></i> اعلان هدف</span>
+                    <label class="switch"><input type="checkbox" checked onchange="playSoftClickSound()"><span class="switch-slider"></span></label>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-row-label"><i class="fa-solid fa-hourglass-half"></i> اعلان تایمر</span>
+                    <label class="switch"><input type="checkbox" checked onchange="playSoftClickSound()"><span class="switch-slider"></span></label>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-row-label"><i class="fa-solid fa-fire"></i> اعلان استریک</span>
+                    <label class="switch"><input type="checkbox" onchange="playSoftClickSound()"><span class="switch-slider"></span></label>
+                </div>
+            </div>
+
+            <!-- 12. SECURITY -->
+            <div class="mana-card">
+                <div class="card-header"><span class="card-title"><i class="fa-solid fa-lock"></i> امنیت</span></div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-solid fa-key"></i></div><div><div class="action-row-title">رمز عبور</div><div class="action-row-sub">آخرین تغییر: ۲ ماه پیش</div></div></div>
+                    <button class="btn-outline-sm" onclick="playSoftClickSound()">تغییر رمز</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-regular fa-envelope"></i></div><div><div class="action-row-title">ایمیل</div><div class="action-row-sub">n.shamsipour@example.com</div></div></div>
+                    <button class="btn-outline-sm" onclick="playSoftClickSound()">ویرایش</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-solid fa-mobile-screen"></i></div><div><div class="action-row-title">شماره موبایل</div><div class="action-row-sub">۰۹۱۲‑***‑۴۵۶۷</div></div></div>
+                    <button class="btn-outline-sm" onclick="playSoftClickSound()">ویرایش</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-solid fa-shield-halved"></i></div><div><div class="action-row-title">ورود دومرحله‌ای</div><div class="action-row-sub">امنیت بیشتر برای حساب تو</div></div></div>
+                    <label class="switch"><input type="checkbox" onchange="playSoftClickSound()"><span class="switch-slider"></span></label>
+                </div>
+            </div>
+
+            <!-- 13. SYNC ACCOUNTS -->
+            <div class="mana-card">
+                <div class="card-header"><span class="card-title"><i class="fa-solid fa-rotate"></i> همگام‌سازی حساب‌ها</span></div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-brands fa-google"></i></div><div class="action-row-title">Google</div></div>
+                    <button class="btn-outline-sm connected" onclick="this.classList.toggle('connected'); this.textContent = this.classList.contains('connected') ? 'متصل' : 'اتصال'; playSoftClickSound();">متصل</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-brands fa-apple"></i></div><div class="action-row-title">Apple</div></div>
+                    <button class="btn-outline-sm" onclick="this.classList.toggle('connected'); this.textContent = this.classList.contains('connected') ? 'متصل' : 'اتصال'; playSoftClickSound();">اتصال</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-brands fa-microsoft"></i></div><div class="action-row-title">Microsoft</div></div>
+                    <button class="btn-outline-sm" onclick="this.classList.toggle('connected'); this.textContent = this.classList.contains('connected') ? 'متصل' : 'اتصال'; playSoftClickSound();">اتصال</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-brands fa-github"></i></div><div class="action-row-title">GitHub</div></div>
+                    <button class="btn-outline-sm" onclick="this.classList.toggle('connected'); this.textContent = this.classList.contains('connected') ? 'متصل' : 'اتصال'; playSoftClickSound();">اتصال</button>
+                </div>
+            </div>
+
+            <!-- 14. EXPORT -->
+            <div class="mana-card">
+                <div class="card-header"><span class="card-title"><i class="fa-solid fa-file-export"></i> خروجی گرفتن</span></div>
+                <div class="export-buttons-row">
+                    <button class="btn-export" onclick="exportProfileData('pdf')"><i class="fa-regular fa-file-pdf"></i> خروجی PDF</button>
+                    <button class="btn-export" onclick="exportProfileData('excel')"><i class="fa-regular fa-file-excel"></i> خروجی Excel</button>
+                    <button class="btn-export" onclick="exportProfileData('json')"><i class="fa-solid fa-file-code"></i> خروجی JSON</button>
+                </div>
+            </div>
+
+            <!-- 15. ACTIVE DEVICES -->
+            <div class="mana-card">
+                <div class="card-header"><span class="card-title"><i class="fa-solid fa-display"></i> دستگاه‌های فعال</span></div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-brands fa-windows"></i></div><div><div class="action-row-title">Windows · Chrome</div><div class="action-row-sub">آخرین فعالیت: امروز، ۱۰:۴۲</div></div></div>
+                    <button class="btn-outline-sm" onclick="playSoftClickSound()">خروج</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-brands fa-android"></i></div><div><div class="action-row-title">Android · اپلیکیشن مانا</div><div class="action-row-sub">آخرین فعالیت: دیروز، ۲۱:۱۵</div></div></div>
+                    <button class="btn-outline-sm" onclick="playSoftClickSound()">خروج</button>
+                </div>
+                <div class="action-row">
+                    <div class="action-row-label"><div class="action-row-icon"><i class="fa-solid fa-globe"></i></div><div><div class="action-row-title">Web · Safari</div><div class="action-row-sub">آخرین فعالیت: ۳ روز پیش</div></div></div>
+                    <button class="btn-outline-sm" onclick="playSoftClickSound()">خروج</button>
+                </div>
+            </div>
+
+            <!-- 16. FINAL MOTIVATIONAL STATS -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header"><span class="stat-title">طولانی‌ترین استریک</span><div class="stat-icon" style="color: var(--accent-orange)"><i class="fa-solid fa-fire"></i></div></div>
+                    <div class="stat-value">۲۹ روز</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header"><span class="stat-title">بیشترین مطالعه در یک روز</span><div class="stat-icon"><i class="fa-regular fa-clock"></i></div></div>
+                    <div class="stat-value">۹.۵ ساعت</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header"><span class="stat-title">تعداد جلسات مطالعه</span><div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div></div>
+                    <div class="stat-value">۲۱۴</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header"><span class="stat-title">درصد موفقیت</span><div class="stat-icon"><i class="fa-regular fa-circle-check"></i></div></div>
+                    <div class="stat-value">۸۶٪</div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- FOOTER SECTION -->
+        <footer class="footer">
+            به خودت ایمان داشته باش؛ <span style="color:var(--primary); font-weight:700;">مانا</span> <i class="fa-solid fa-heart"></i> همراه لحظه به لحظه توست.
+        </footer>
+    </main>
+
+    <!-- MOBILE-FIRST: Bottom Navigation (replaces sidebar under 768px) -->
+    <nav class="bottom-nav" id="bottom-nav">
+        <button class="bottom-nav-item active" data-tab="dashboard" onclick="switchPage(event, 'dashboard')">
+            <i class="fa-solid fa-house"></i>
+            <span>خانه</span>
+        </button>
+        <button class="bottom-nav-item" data-tab="subjects" onclick="switchPage(event, 'subjects')">
+            <i class="fa-solid fa-book-open"></i>
+            <span>دروس</span>
+        </button>
+        <button class="bottom-nav-item" data-tab="timer" onclick="switchPage(event, 'timer')">
+            <i class="fa-solid fa-hourglass-half"></i>
+            <span>تایمر</span>
+        </button>
+        <button class="bottom-nav-item" data-tab="stats" onclick="switchPage(event, 'stats')">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>آمار</span>
+        </button>
+        <button class="bottom-nav-item" data-tab="profile" onclick="switchPage(event, 'profile')">
+            <i class="fa-solid fa-user"></i>
+            <span>پروفایل</span>
+        </button>
+    </nav>
+
+    <!-- Calm short toast for goal-completion / motivational messages -->
+    <div class="mana-toast" id="mana-toast">
+        <i class="fa-solid fa-seedling"></i>
+        <span id="mana-toast-text"></span>
+    </div>
+
+    <!-- PRESET NOTIFICATION MODAL -->
+    <div class="modal-overlay" id="notification-modal" onclick="closeNotificationModal()">
+        <div class="mana-modal" onclick="event.stopPropagation()">
+            <i class="fa-solid fa-xmark modal-close" onclick="closeNotificationModal()"></i>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--text-primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-sparkles" style="color: var(--text-secondary);"></i>
+                صندوق نوتیفیکیشن مانا
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">
+                تبریک قهرمان! شما امروز توانستید ۵۰ دقیقه پیوسته تمرکز کنید. سطح تجربه (XP) شما ارتقا یافت و ۱۲۰ امتیاز جدید دریافت کردید.
+            </p>
+            <div style="display:flex; justify-content:flex-end;">
+                <button class="control-btn btn-start" style="padding: 10px 24px; font-size: 0.85rem;" onclick="closeNotificationModal()">فهمیدم، ادامه تلاش</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard Application State
+        const AppState = {
+            statsRange: 'week',
+            timer: {
+                totalSeconds: 3000, // Default 50 minutes
+                secondsLeft: 3000,
+                intervalId: null,
+                isRunning: false,
+                currentPreset: 50
+            },
+            subjects: [
+                { id: 1, name: "زیست‌شناسی دوازدهم", checked: true, progress: 100, hours: 1.5 },
+                { id: 2, name: "شیمی عمومی و آلی", checked: true, progress: 100, hours: 1.2 },
+                { id: 3, name: "ریاضیات گسسته و دیفرانسیل", checked: false, progress: 30, hours: 0.5 },
+                { id: 4, name: "فیزیک (مکانیک سینماتیک)", checked: true, progress: 100, hours: 1.0 }
+            ],
+            user: {
+                xp: 680,
+                maxXp: 1000,
+                level: 4,
+                studyHoursToday: 4.2,
+                streak: 12,
+                monthlyHours: 128
+            }
+        };
+
+        // Run on Page Load
+        window.onload = function() {
+            initUI();
+            initCharts();
+            // Start subtle animation loaders for numbers
+            animateStatNumbers();
+            // Establish the root history entry (dashboard) so the very first
+            // hardware/browser Back press behaves correctly
+            history.replaceState({ manaPage: 'dashboard' }, '', '#dashboard');
+        };
+
+        // Initialize and sync UI State
+        function initUI() {
+            loadSavedThemeColor();
+            loadSubjectsFromStorage();
+            renderAllSubjectLists();
+            updateXPBar();
+            updateSubjectUI();
+            updateTimerDisplay();
+            updateDate();
+            updateHeroPersonalGreeting();
+        }
+
+        // Beautiful Perso-Arabic formatted Date Generation
+        function updateDate() {
+            const dateSpan = document.getElementById('current-persian-date');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            // Using standard Intl formatter to present native high-quality Persian output
+            const persianDate = today.toLocaleDateString('fa-IR', options);
+            dateSpan.textContent = persianDate;
+        }
+
+        // Animate progression trackers
+        function updateXPBar() {
+            const xpFill = document.getElementById('sidebar-xp-fill');
+            const xpText = document.getElementById('xp-text-val');
+            const percentage = (AppState.user.xp / AppState.user.maxXp) * 100;
+            xpFill.style.width = `${percentage}%`;
+            xpText.textContent = `${AppState.user.xp} / ${AppState.user.maxXp} XP`;
+        }
+
+        // Premium Apple-style dynamic counting effect
+        function animateStatNumbers() {
+            animateValue("metric-today-hours", 0, AppState.user.studyHoursToday, 1500, true);
+            animateValue("metric-streak", 0, AppState.user.streak, 1200, false);
+            animateValue("metric-monthly-hours", 0, AppState.user.monthlyHours, 1800, false);
+            
+            // Softly trigger statistical progress bar visual animations
+            setTimeout(() => {
+                document.getElementById('progress-today-hours').style.width = '70%';
+                document.getElementById('progress-streak').style.width = '85%';
+                document.getElementById('progress-tasks').style.width = '75%';
+                document.getElementById('progress-monthly').style.width = '64%';
+            }, 100);
+        }
+
+        function animateValue(id, start, end, duration, decimals) {
+            const obj = document.getElementById(id);
+            if (!obj) return;
+            const range = end - start;
+            let current = start;
+            const increment = end > start ? (range / (duration / 16)) : -1;
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    clearInterval(timer);
+                    obj.textContent = decimals ? end.toFixed(1) : end;
+                } else {
+                    obj.textContent = decimals ? current.toFixed(1) : Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // ===== SUBJECTS ENGINE: add / check / delete / persist to browser memory =====
+        const SUBJECTS_STORAGE_KEY = 'mana_subjects_v1';
+
+        // Convert normal digits to Persian numerals, to match the site's visual style
+        function toFa(input) {
+            const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+            return String(input).replace(/[0-9]/g, d => faDigits[d]);
+        }
+
+        // Render an hours value the same way the rest of the UI does (e.g. "۱.۵ ساعت" or "۳۰ دقیقه")
+        function formatHoursLabel(hours) {
+            if (hours < 1) {
+                return `${toFa(Math.round(hours * 60))} دقیقه`;
+            }
+            const rounded = Math.round(hours * 10) / 10;
+            const str = (rounded % 1 === 0) ? rounded.toFixed(0) : rounded.toFixed(1);
+            return `${toFa(str)} ساعت`;
+        }
+
+        // Persist AppState.subjects to the browser's localStorage ("حافظه سایت")
+        function saveSubjectsToStorage() {
+            try {
+                localStorage.setItem(SUBJECTS_STORAGE_KEY, JSON.stringify(AppState.subjects));
+            } catch (e) {
+                console.log('localStorage not available, subjects will not persist between visits.');
+            }
+        }
+
+        // Load subjects from localStorage if present; otherwise keep the default seed list
+        function loadSubjectsFromStorage() {
+            try {
+                const raw = localStorage.getItem(SUBJECTS_STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        AppState.subjects = parsed;
+                        return;
+                    }
+                }
+            } catch (e) {}
+            // First visit ever: save the default seed list so it's there next time
+            saveSubjectsToStorage();
+        }
+
+        // Build the HTML for a single subject row
+        function buildSubjectRowHTML(sub) {
+            const checkedAttr = sub.checked ? 'checked' : '';
+            const fillWidth = sub.checked ? 100 : 0;
+            const fillColor = sub.checked ? 'var(--primary)' : 'rgba(255,255,255,0.08)';
+            return `
+                <div class="subject-item" data-subject-id="${sub.id}">
+                    <div class="subject-meta">
+                        <label class="subject-check-wrapper">
+                            <input type="checkbox" class="subject-checkbox" ${checkedAttr} onchange="toggleSubjectChecked(${sub.id}, this.checked)">
+                            <span class="custom-checkmark"></span>
+                        </label>
+                        <div class="subject-details">
+                            <span class="subject-name">${sub.name}</span>
+                            <div class="subject-progress-bar-wrapper">
+                                <div class="subject-progress-fill" style="width: ${fillWidth}%; background: ${fillColor};"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="subject-badge">${formatHoursLabel(sub.hours)}</span>
+                    <button class="subject-delete-btn" onclick="deleteSubjectRow(${sub.id})" title="حذف این درس">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>`;
+        }
+
+        // Re-render every subject list on every page from the single source of truth (AppState.subjects)
+        function renderAllSubjectLists() {
+            document.querySelectorAll('.js-subject-list').forEach(container => {
+                if (AppState.subjects.length === 0) {
+                    container.innerHTML = `<div class="subject-list-empty">هنوز درسی ثبت نکردی. از فرم بالا شروع کن!</div>`;
+                } else {
+                    container.innerHTML = AppState.subjects.map(buildSubjectRowHTML).join('');
+                }
+            });
+        }
+
+        // Called from the "افزودن درس جدید" form on the دروس امروز page
+        function addSubjectFromForm(evt) {
+            evt.preventDefault();
+            const nameInput = document.getElementById('input-subject-name');
+            const hoursInput = document.getElementById('input-subject-hours');
+
+            const name = nameInput.value.trim();
+            const hours = parseFloat(hoursInput.value);
+
+            if (!name || isNaN(hours) || hours <= 0) {
+                return false;
+            }
+
+            AppState.subjects.push({
+                id: Date.now(),
+                name: name,
+                hours: hours,
+                checked: false
+            });
+
+            saveSubjectsToStorage();
+            renderAllSubjectLists();
+            updateSubjectUI();
+            playSoftClickSound();
+
+            nameInput.value = '';
+            hoursInput.value = '';
+            nameInput.focus();
+            return false;
+        }
+
+        // Tick / untick a subject's checklist box -> saved permanently to browser memory
+        function toggleSubjectChecked(subjectId, isChecked) {
+            const stateSub = AppState.subjects.find(s => s.id === subjectId);
+            if (stateSub) {
+                stateSub.checked = isChecked;
+            }
+            saveSubjectsToStorage();
+            renderAllSubjectLists();
+            updateSubjectUI();
+            playSoftClickSound();
+        }
+
+        // Remove a subject entry entirely
+        function deleteSubjectRow(subjectId) {
+            AppState.subjects = AppState.subjects.filter(s => s.id !== subjectId);
+            saveSubjectsToStorage();
+            renderAllSubjectLists();
+            updateSubjectUI();
+            playSoftClickSound();
+        }
+
+        // ===== STAGE 4: Mana's calm personality — time-aware greeting + short toast =====
+        let goalCelebrationShown = false;
+
+        function updateHeroPersonalGreeting() {
+            const el = document.getElementById('hero-personal-greeting');
+            if (!el) return;
+            const hour = new Date().getHours();
+            let greeting;
+            if (hour < 5) greeting = 'شب بخیر قهرمان 🌙';
+            else if (hour < 12) greeting = 'صبح بخیر قهرمان 🌱';
+            else if (hour < 17) greeting = 'ظهر بخیر قهرمان ☀️';
+            else if (hour < 21) greeting = 'عصر بخیر قهرمان 🌿';
+            else greeting = 'شب بخیر قهرمان 🌙';
+            el.textContent = greeting;
+        }
+
+        function showManaToast(message) {
+            const toast = document.getElementById('mana-toast');
+            const textEl = document.getElementById('mana-toast-text');
+            if (!toast || !textEl) return;
+            textEl.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(window._manaToastTimeout);
+            window._manaToastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // ===== STAGE 2: Dynamic Hero goal block + short motivational messaging =====
+        function updateHeroGoalBlock() {
+            const goalTargetHours = 6;
+            const doneHours = AppState.subjects.filter(s => s.checked).reduce((sum, s) => sum + s.hours, 0);
+            const pct = Math.min(100, Math.round((doneHours / goalTargetHours) * 100));
+            const remaining = Math.max(0, goalTargetHours - doneHours);
+
+            const currentEl = document.getElementById('hero-goal-current');
+            const fillEl = document.getElementById('hero-goal-progress-fill');
+            const msgEl = document.getElementById('hero-goal-message');
+            const quoteEl = document.getElementById('dashboard-quote-text');
+            if (!currentEl) return;
+
+            currentEl.textContent = toFa(Math.round(doneHours * 10) / 10);
+            fillEl.style.width = pct + '%';
+
+            if (remaining <= 0) {
+                msgEl.textContent = 'هدف امروزت تکمیل شد؛ عالی بود! 🎉';
+                if (quoteEl) quoteEl.textContent = 'امروز عالی پیش رفتی.';
+                if (!goalCelebrationShown && doneHours > 0) {
+                    goalCelebrationShown = true;
+                    showManaToast('امروز عالی پیش رفتی. به هدفت رسیدی 🌱');
+                }
+            } else if (remaining <= 1) {
+                msgEl.textContent = `فقط ${formatHoursLabel(remaining)} تا رسیدن به هدفت باقی مانده 💪`;
+                if (quoteEl) quoteEl.textContent = 'یک قدم دیگر بردار.';
+            } else {
+                msgEl.textContent = `${formatHoursLabel(remaining)} تا رسیدن به هدف امروزت باقی مانده.`;
+                if (quoteEl) quoteEl.textContent = 'امروز هم می‌توانی.';
+            }
+        }
+
+        function updateSubjectUI() {
+            const total = AppState.subjects.length;
+            const completed = AppState.subjects.filter(s => s.checked).length;
+            const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+            const totalHoursChecked = AppState.subjects
+                .filter(s => s.checked)
+                .reduce((sum, s) => sum + s.hours, 0);
+
+            // Dashboard subject card header
+            const dashboardIndicator = document.getElementById('subject-progress-indicator');
+            if (dashboardIndicator) dashboardIndicator.textContent = `${toFa(completed)} از ${toFa(total)} درس تمام شده`;
+
+            // دروس امروز page: header badges + card header
+            const pageIndicator = document.getElementById('subject-progress-indicator-page');
+            if (pageIndicator) pageIndicator.textContent = `${toFa(completed)} از ${toFa(total)} انجام شده`;
+
+            const doneBadge = document.getElementById('subjects-done-badge');
+            if (doneBadge) doneBadge.textContent = `${toFa(completed)} از ${toFa(total)} انجام شده`;
+
+            const hoursBadge = document.getElementById('subjects-hours-badge');
+            if (hoursBadge) hoursBadge.textContent = `${formatHoursLabel(totalHoursChecked)} ثبت‌شده`;
+
+            // Update today's task state metrics on the dashboard stat card
+            const tasksDoneEl = document.getElementById('metric-tasks-done');
+            const tasksTotalEl = document.getElementById('metric-tasks-total');
+            const tasksPctEl = document.getElementById('tasks-percentage');
+            const tasksProgressEl = document.getElementById('progress-tasks');
+            if (tasksDoneEl) tasksDoneEl.textContent = toFa(completed);
+            if (tasksTotalEl) tasksTotalEl.textContent = toFa(total);
+            if (tasksPctEl) tasksPctEl.textContent = `${toFa(pct)}٪ موفق`;
+            if (tasksProgressEl) tasksProgressEl.style.width = `${pct}%`;
+
+            // Give tiny reward in XP when every subject for the day is checked off
+            if (total > 0 && completed === total) {
+                AppState.user.xp = 820;
+                updateXPBar();
+            } else {
+                AppState.user.xp = 680;
+                updateXPBar();
+            }
+
+            updateHeroGoalBlock();
+        }
+
+        // Pomodoro Core Control Deck
+        function setTimerDuration(minutes) {
+            // Sync active state across every preset button on every page (dashboard + timer page)
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.getAttribute('data-duration')) === minutes);
+            });
+
+            AppState.timer.totalSeconds = minutes * 60;
+            AppState.timer.secondsLeft = minutes * 60;
+            AppState.timer.currentPreset = minutes;
+            updateTimerDisplay();
+            
+            if (AppState.timer.isRunning) {
+                pauseTimerInternal();
+                setTimerButtonsState(false);
+            }
+            playSoftClickSound();
+        }
+
+        function resetDefaultTimer() {
+            setTimerDuration(50);
+        }
+
+        function toggleTimer() {
+            if (AppState.timer.isRunning) {
+                pauseTimerInternal();
+                setTimerButtonsState(false);
+            } else {
+                startTimerInternal();
+                setTimerButtonsState(true);
+            }
+            playSoftClickSound();
+        }
+
+        function setTimerButtonsState(isRunning) {
+            document.querySelectorAll('.js-timer-start-btn').forEach(btn => btn.style.display = isRunning ? 'none' : 'block');
+            document.querySelectorAll('.js-timer-pause-btn').forEach(btn => btn.style.display = isRunning ? 'block' : 'none');
+            document.querySelectorAll('.js-timer-glow').forEach(glow => glow.classList.toggle('running', isRunning));
+        }
+
+        function startTimerInternal() {
+            AppState.timer.isRunning = true;
+            AppState.timer.intervalId = setInterval(() => {
+                if (AppState.timer.secondsLeft > 0) {
+                    AppState.timer.secondsLeft--;
+                    updateTimerDisplay();
+                } else {
+                    // Timer Finished! Play elegant acoustic synthesizer note
+                    triggerTimerFinishNotification();
+                }
+            }, 1000);
+        }
+
+        function pauseTimerInternal() {
+            AppState.timer.isRunning = false;
+            clearInterval(AppState.timer.intervalId);
+        }
+
+        function resetTimer() {
+            pauseTimerInternal();
+            AppState.timer.secondsLeft = AppState.timer.totalSeconds;
+            updateTimerDisplay();
+            setTimerButtonsState(false);
+            playSoftClickSound();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(AppState.timer.secondsLeft / 60);
+            const secs = AppState.timer.secondsLeft % 60;
+            const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.querySelectorAll('.js-timer-countdown').forEach(el => el.textContent = timeStr);
+
+            // Calculate progress circle offset (applies to every synced ring, even different radii)
+            const pctRemaining = AppState.timer.secondsLeft / AppState.timer.totalSeconds;
+            document.querySelectorAll('.js-timer-ring').forEach(ring => {
+                const r = parseFloat(ring.getAttribute('r'));
+                const circumference = 2 * Math.PI * r;
+                ring.style.strokeDasharray = circumference;
+                ring.style.strokeDashoffset = circumference * (1 - pctRemaining);
+            });
+        }
+
+        // Interactive Acoustic Synthesizer (No external asset URL reliance)
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+
+        function playSoftClickSound() {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, ctx.currentTime); // A4 Note
+                osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.05); // Upward sweep
+                
+                gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.1);
+            } catch (e) {
+                console.log("Audio not allowed yet by browser gesture policies");
+            }
+        }
+
+        function triggerTimerFinishNotification() {
+            resetTimer();
+            // Complex Synthesizer melody for completion reward
+            try {
+                const ctx = getAudioContext();
+                const notes = [261.63, 329.63, 392.00, 523.25]; // C Major Chord sweep
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.15);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime + idx * 0.15);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.15 + 0.4);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + idx * 0.15);
+                    osc.stop(ctx.currentTime + idx * 0.15 + 0.45);
+                });
+            } catch (e) {}
+            showNotificationModal();
+        }
+
+        // RENDER PREMIUM CHARTS VIA PLAIN CANVAS (Zero dependency)
+        let chartsInstance = {};
+
+        function initCharts() {
+            drawWeeklyHoursChart();
+            drawSubjectDistributionChart();
+        }
+
+        function regenerateFakeData() {
+            // Randomize study hours dynamic presentation slightly
+            const newVal = (Math.random() * 3 + 3).toFixed(1);
+            AppState.user.studyHoursToday = parseFloat(newVal);
+            document.getElementById('metric-today-hours').textContent = newVal;
+            
+            // Draw charts again
+            initCharts();
+            playSoftClickSound();
+        }
+
+        // Illustrative weekly/monthly datasets (there is no real multi-day backend yet)
+        const WEEKLY_DATASETS = {
+            week: { labels: ['شنبه', '۱ش', '۲ش', '۳ش', '۴ش', '۵ش', 'جمعه'], values: [5.5, 6.2, 4.8, 7.0, 5.2, 4.2, 2.0], max: 8 },
+            month: { labels: ['هفته ۱', 'هفته ۲', 'هفته ۳', 'هفته ۴'], values: [28, 32, 24, 30], max: 40 },
+            today: { labels: ['امروز'], values: [0], max: 8 } // 'today' bar is filled in with real data at render time
+        };
+
+        function drawWeeklyHoursChart() {
+            document.querySelectorAll('.js-chart-weekly').forEach(canvas => {
+                const range = canvas.getAttribute('data-range') || AppState.statsRange || 'week';
+                const dataset = WEEKLY_DATASETS[range];
+
+                // For "امروز" show the real logged hours so far instead of a fake number
+                if (range === 'today') {
+                    const realHoursToday = AppState.subjects.filter(s => s.checked).reduce((sum, s) => sum + s.hours, 0);
+                    dataset.values[0] = realHoursToday;
+                    dataset.max = Math.max(8, Math.ceil(realHoursToday));
+                }
+
+                const ctx = canvas.getContext('2d');
+
+                // Handle high DPI screens
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+
+                const width = rect.width;
+                const height = rect.height;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const days = dataset.labels;
+                const values = dataset.values;
+                const maxVal = dataset.max;
+
+                const paddingLeft = 30;
+                const paddingBottom = 25;
+                const paddingTop = 20;
+                const chartWidth = width - paddingLeft - 10;
+                const chartHeight = height - paddingBottom - paddingTop;
+
+                // Draw clean subtle gridlines
+                ctx.strokeStyle = 'rgba(154, 164, 178, 0.05)';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 4; i++) {
+                    const y = paddingTop + (chartHeight * (i / 4));
+                    ctx.beginPath();
+                    ctx.moveTo(paddingLeft, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+                }
+
+                // Draw Rounded Columns (Apple Minimal Theme Style)
+                const barWidth = Math.min(36, (chartWidth / days.length) * 0.5);
+                const spacing = days.length > 1 ? (chartWidth - (barWidth * days.length)) / (days.length - 1) : 0;
+
+                days.forEach((day, index) => {
+                    const val = values[index];
+                    const barHeight = (val / maxVal) * chartHeight;
+                    const x = paddingLeft + (index * (barWidth + spacing));
+                    const y = height - paddingBottom - barHeight;
+
+                    const gradient = ctx.createLinearGradient(x, y, x, y + barHeight);
+                    gradient.addColorStop(0, '#A3E635');
+                    gradient.addColorStop(1, '#7BAE4A');
+                    ctx.fillStyle = gradient;
+
+                    drawRoundedRect(ctx, x, y, barWidth, Math.max(barHeight, 2), 6);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#9AA4B2';
+                    ctx.font = '10px Vazirmatn';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(day, x + barWidth / 2, height - 6);
+                });
+            });
+        }
+
+        // Consistent color palette for donut segments, cycled if there are more subjects than colors
+        const SUBJECT_COLOR_PALETTE = ['#A3E635', '#7BAE4A', '#F97316', '#38BDF8', '#C084FC', '#F87171', '#FACC15'];
+
+        // Build real subject-distribution data from AppState.subjects (grouped by name, checked hours only)
+        function computeSubjectDistribution() {
+            const totals = {};
+            AppState.subjects.filter(s => s.checked).forEach(s => {
+                totals[s.name] = (totals[s.name] || 0) + s.hours;
+            });
+            const names = Object.keys(totals);
+            if (names.length === 0) return [];
+            return names.map((name, i) => ({
+                name,
+                value: totals[name],
+                color: SUBJECT_COLOR_PALETTE[i % SUBJECT_COLOR_PALETTE.length]
+            }));
+        }
+
+        function drawSubjectDistributionChart() {
+            const data = computeSubjectDistribution();
+
+            document.querySelectorAll('.js-chart-subject-distribution').forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+
+                const width = rect.width;
+                const height = rect.height;
+
+                ctx.clearRect(0, 0, width, height);
+
+                if (data.length === 0) {
+                    ctx.fillStyle = '#9AA4B2';
+                    ctx.font = '11px Vazirmatn';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('هنوز درسی تیک نخورده', width / 2, height / 2);
+                    return;
+                }
+
+                const total = data.reduce((sum, item) => sum + item.value, 0);
+                const centerX = width * 0.35;
+                const centerY = height * 0.5;
+                const outerRadius = Math.min(width, height) * 0.4;
+                const innerRadius = outerRadius * 0.62;
+
+                let startAngle = -Math.PI / 2;
+
+                data.forEach(segment => {
+                    const angle = (segment.value / total) * (Math.PI * 2);
+
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, outerRadius, startAngle, startAngle + angle);
+                    ctx.arc(centerX, centerY, innerRadius, startAngle + angle, startAngle, true);
+                    ctx.closePath();
+
+                    ctx.fillStyle = segment.color;
+                    ctx.fill();
+
+                    startAngle += angle;
+                });
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, innerRadius, 0, Math.PI * 2);
+                ctx.fillStyle = '#171C23';
+                ctx.fill();
+
+                const legendX = width * 0.68;
+                const legendStartY = centerY - (data.length * 22) / 2;
+
+                data.forEach((segment, index) => {
+                    const y = legendStartY + (index * 22);
+                    const pct = Math.round((segment.value / total) * 100);
+
+                    ctx.beginPath();
+                    ctx.arc(legendX - 10, y - 4, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = segment.color;
+                    ctx.fill();
+
+                    ctx.fillStyle = '#E7E7E7';
+                    ctx.font = '10.5px Vazirmatn';
+                    ctx.textAlign = 'right';
+                    ctx.fillText(`${segment.name} (${toFa(pct)}٪)`, legendX - 22, y);
+                });
+            });
+        }
+
+        // Helper Canvas rounded rect drawing tool
+        function drawRoundedRect(ctx, x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height);
+            ctx.lineTo(x, y + height);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        // ===== STATS & REPORTS PAGE =====
+        function setStatsRange(range) {
+            AppState.statsRange = range;
+            document.querySelectorAll('.range-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.getAttribute('data-range') === range);
+            });
+            renderStatsPage();
+            playSoftClickSound();
+        }
+
+        function renderStatsPage() {
+            const range = AppState.statsRange;
+            const dataset = WEEKLY_DATASETS[range];
+            const rangeLabels = { today: 'امروز', week: 'این هفته', month: 'این ماه' };
+
+            drawWeeklyHoursChart();
+            drawSubjectDistributionChart();
+            updateStatsSummaryCards(range, dataset, rangeLabels);
+            renderStatsBreakdownTable();
+            renderStreakHeatmap();
+        }
+
+        function updateStatsSummaryCards(range, dataset, rangeLabels) {
+            let values = dataset.values;
+            if (range === 'today') {
+                values = [AppState.subjects.filter(s => s.checked).reduce((sum, s) => sum + s.hours, 0)];
+            }
+
+            const total = values.reduce((sum, v) => sum + v, 0);
+            const avg = total / values.length;
+            let bestIndex = 0;
+            values.forEach((v, i) => { if (v > values[bestIndex]) bestIndex = i; });
+
+            const rangeLabelEl = document.getElementById('stats-range-label');
+            if (rangeLabelEl) rangeLabelEl.textContent = rangeLabels[range];
+
+            const totalEl = document.getElementById('stats-total-hours');
+            if (totalEl) totalEl.textContent = toFa(Math.round(total * 10) / 10);
+
+            const avgEl = document.getElementById('stats-avg-hours');
+            if (avgEl) avgEl.textContent = toFa(Math.round(avg * 10) / 10);
+
+            const bestDayEl = document.getElementById('stats-best-day');
+            const bestDayHoursEl = document.getElementById('stats-best-day-hours');
+            if (bestDayEl && bestDayHoursEl) {
+                bestDayEl.textContent = dataset.labels[bestIndex] || '—';
+                bestDayHoursEl.textContent = `${formatHoursLabel(values[bestIndex] || 0)} مطالعه`;
+            }
+
+            // Pomodoro session count: real completed-subject count for "امروز", illustrative otherwise
+            const sessionsEl = document.getElementById('stats-sessions-count');
+            if (sessionsEl) {
+                const realSessionsToday = AppState.subjects.filter(s => s.checked).length;
+                const illustrative = { today: realSessionsToday, week: 18, month: 64 };
+                sessionsEl.textContent = toFa(illustrative[range]);
+            }
+        }
+
+        function renderStatsBreakdownTable() {
+            const tbody = document.getElementById('stats-breakdown-table-body');
+            if (!tbody) return;
+
+            if (AppState.subjects.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--text-secondary); padding: 24px;">هنوز درسی ثبت نکردی.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = AppState.subjects.map(sub => `
+                <tr>
+                    <td class="test-subject-cell">${sub.name}</td>
+                    <td style="color: var(--text-primary);">${formatHoursLabel(sub.hours)}</td>
+                    <td>
+                        ${sub.checked
+                            ? '<span class="trend-up"><i class="fa-solid fa-circle-check"></i> انجام شده</span>'
+                            : '<span style="color: var(--text-secondary);"><i class="fa-regular fa-circle"></i> در انتظار</span>'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Illustrative last-12-weeks streak intensity (real day-by-day history isn't tracked yet)
+        function renderStreakHeatmap(targetId) {
+            const grid = document.getElementById(targetId || 'streak-heatmap-grid');
+            if (!grid) return;
+
+            const totalDays = 12 * 7; // ~12 weeks
+            let html = '';
+            for (let i = 0; i < totalDays; i++) {
+                // Deterministic pseudo-random pattern so it doesn't reshuffle on every render
+                const seed = Math.sin(i * 12.9898) * 43758.5453;
+                const frac = seed - Math.floor(seed);
+                let level = Math.floor(frac * 5);
+
+                // Make the most recent 12 days reflect the real streak (today counts as active)
+                if (i >= totalDays - 12) {
+                    level = 3;
+                }
+                if (i === totalDays - 1) {
+                    const hasStudiedToday = AppState.subjects.some(s => s.checked);
+                    level = hasStudiedToday ? 4 : 0;
+                }
+
+                html += `<div class="heatmap-cell" data-level="${level}"></div>`;
+            }
+            grid.innerHTML = html;
+        }
+
+        // ===== PROFILE PAGE HELPERS =====
+
+        // Render everything specific to the profile page (charts + heatmap need visible layout to size)
+        function renderProfilePage() {
+            drawWeeklyHoursChart();
+            renderStreakHeatmap('profile-heatmap-grid');
+            updateGrowthTree();
+        }
+
+        // The "درخت رشد مانا" visual scales with the user's level
+        function updateGrowthTree() {
+            const el = document.getElementById('growth-tree-emoji');
+            if (!el) return;
+            const level = AppState.user.level || 1;
+            let emoji = '🌱';
+            if (level >= 20) emoji = '🌲';
+            else if (level >= 12) emoji = '🌳';
+            else if (level >= 6) emoji = '🌿';
+            el.textContent = emoji;
+        }
+
+        // Lets the user tag a favorite subject with a custom color
+        function pickRandomThemeColor() {
+            const palette = ['#A3E635', '#F97316', '#38BDF8', '#C084FC', '#F87171', '#FACC15', '#2DD4BF'];
+            return palette[Math.floor(Math.random() * palette.length)];
+        }
+
+        // Live-updates the site's primary accent color (persisted across visits)
+        function applyThemeColor(hex, swatchEl) {
+            document.documentElement.style.setProperty('--primary', hex);
+
+            // Derive a matching glow tone from the chosen color
+            const rgb = hexToRgb(hex);
+            if (rgb) {
+                document.documentElement.style.setProperty('--primary-glow', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.15)`);
+                document.documentElement.style.setProperty('--primary-glow-strong', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)`);
+            }
+
+            document.querySelectorAll('.theme-swatch').forEach(s => s.classList.remove('active'));
+            if (swatchEl) swatchEl.classList.add('active');
+
+            try { localStorage.setItem('mana_theme_color', hex); } catch (e) {}
+            initCharts();
+            renderProfilePage();
+            playSoftClickSound();
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // Load any previously-saved theme color on startup
+        function loadSavedThemeColor() {
+            try {
+                const saved = localStorage.getItem('mana_theme_color');
+                if (saved) applyThemeColor(saved, null);
+            } catch (e) {}
+        }
+
+        // Export handlers: JSON works for real right now; PDF/Excel are on the roadmap
+        function exportProfileData(format) {
+            if (format === 'json') {
+                const blob = new Blob([JSON.stringify(AppState, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'mana-profile-data.json';
+                a.click();
+                URL.revokeObjectURL(url);
+            } else {
+                alert('خروجی ' + (format === 'pdf' ? 'PDF' : 'Excel') + ' به‌زودی فعال می‌شود.');
+            }
+            playSoftClickSound();
+        }
+
+        // Overlay Modal handlers
+        function showNotificationModal() {
+            document.getElementById('notification-modal').classList.add('active');
+        }
+
+        function closeNotificationModal() {
+            document.getElementById('notification-modal').classList.remove('active');
+        }
+
+        // SPA Page Router: switches visible page-content block + active nav state
+        function switchPage(evt, pageKey, skipHistoryPush) {
+            if (evt) evt.preventDefault();
+
+            // Toggle nav-item active state (desktop sidebar + mobile bottom nav)
+            document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(item => {
+                item.classList.toggle('active', item.getAttribute('data-tab') === pageKey);
+            });
+
+            // Toggle page-content visibility
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.toggle('active', page.id === 'page-' + pageKey);
+            });
+
+            // Re-render canvases relevant to the newly shown page (canvas needs visible layout to size correctly)
+            if (pageKey === 'dashboard' || pageKey === 'timer') {
+                setTimeout(initCharts, 50);
+            }
+            if (pageKey === 'stats') {
+                setTimeout(renderStatsPage, 50);
+            }
+            if (pageKey === 'profile') {
+                setTimeout(renderProfilePage, 50);
+            }
+
+            // Close mobile sidebar drawer after navigating
+            document.getElementById('sidebar').classList.remove('active');
+
+            // Scroll main content back to top on page change
+            document.querySelector('.main-content').scrollTop = 0;
+            window.scrollTo(0, 0);
+
+            // ===== Back-button fix: register a History entry for inner pages =====
+            // Dashboard is treated as the "root" of the in-app history stack.
+            // Any other page pushes a new state, so pressing hardware/browser Back
+            // returns to the dashboard first, instead of leaving the app/site.
+            if (!skipHistoryPush) {
+                if (pageKey === 'dashboard') {
+                    // Avoid piling up duplicate root states
+                    if (!history.state || history.state.manaPage !== 'dashboard') {
+                        history.replaceState({ manaPage: 'dashboard' }, '', '#dashboard');
+                    }
+                } else {
+                    history.pushState({ manaPage: pageKey }, '', '#' + pageKey);
+                }
+            }
+        }
+
+        // Handles hardware/browser Back button presses
+        window.addEventListener('popstate', function(event) {
+            const targetPage = (event.state && event.state.manaPage) ? event.state.manaPage : 'dashboard';
+            switchPage(null, targetPage, true);
+        });
+
+        // Mobile-first floating CTA: jump straight into a focus session, one tap, no menus
+        function startStudyFromFab() {
+            switchPage(null, 'timer');
+            setTimeout(() => {
+                if (!AppState.timer.isRunning) {
+                    toggleTimer();
+                }
+                document.querySelector('.js-timer-ring')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 120);
+        }
+
+        // Interactive responsive mobile sidebar drawer
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Listen for screen resize to re-render custom canvases dynamically
+        window.addEventListener('resize', () => {
+            initCharts();
+        });
+    </script>
+</body>
+</html>
