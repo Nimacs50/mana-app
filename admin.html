@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mana Admin Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Vazirmatn', 'sans-serif'] },
+                    colors: { mana: { light: '#a3e635', DEFAULT: '#84cc16', dark: '#65a30d' } }
+                }
+            }
+        }
+    </script>
+<style>/* -------------------------------------------------------------------------
+   mana-admin / admin-style.css
+   دقیقاً بر پایه‌ی توکن‌های بصری صفحه‌ی Login مانا (glass-card, glass-input,
+   رنگ mana #84cc16، فونت Vazirmatn، پس‌زمینه‌ی تیره #0d131a) نوشته شده.
+   ------------------------------------------------------------------------- */
+
+body {
+  font-family: 'Vazirmatn', sans-serif;
+  background: #0d131a;
+  transition: background-color 0.5s ease;
+}
+
+.light body { background: #f4f6f2; }
+
+/* ---------- Glass primitives (از Login کپی‌شده، بدون تغییر) ---------- */
+.glass-card {
+  background: rgba(13, 22, 17, 0.55);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.light .glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.light .glass-input {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #1a2e1a;
+}
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #84cc16;
+  box-shadow: 0 0 15px rgba(132, 204, 22, 0.25);
+  outline: none;
+}
+.light .glass-input:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #65a30d;
+  box-shadow: 0 0 15px rgba(101, 163, 13, 0.2);
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
+::-webkit-scrollbar-thumb { background: rgba(132, 204, 22, 0.3); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(132, 204, 22, 0.5); }
+
+/* ---------- Layout: Sidebar / Topbar ---------- */
+.admin-sidebar {
+  background: rgba(13, 22, 17, 0.6);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+.light .admin-sidebar {
+  background: rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.65rem 0.9rem; border-radius: 1rem;
+  color: #9ca3af; font-size: 0.84rem; font-weight: 500;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  cursor: pointer; border: 1px solid transparent;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); color: #e5e7eb; }
+.light .nav-item:hover { background: rgba(0,0,0,0.04); color: #1a2e1a; }
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(132,204,22,0.18), rgba(132,204,22,0.03));
+  color: #bef264; border-color: rgba(132,204,22,0.25);
+}
+.light .nav-item.active {
+  background: linear-gradient(90deg, rgba(101,163,13,0.14), rgba(101,163,13,0.02));
+  color: #3f6212; border-color: rgba(101,163,13,0.25);
+}
+
+/* ---------- Cards / stat tiles ---------- */
+.stat-tile { border-radius: 1.5rem; padding: 1.1rem; }
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  background-image: linear-gradient(to right, #65a30d, #84cc16);
+  color: #fff; font-weight: 700; border-radius: 1rem;
+  padding: 0.6rem 1.1rem; font-size: 0.82rem;
+  box-shadow: 0 10px 25px -8px rgba(132,204,22,0.45);
+  transition: all .2s ease; cursor: pointer;
+}
+.btn-primary:hover { background-image: linear-gradient(to right, #84cc16, #a3e635); }
+.btn-primary:active { transform: scale(0.96); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: #e5e7eb; font-weight: 600; border-radius: 1rem;
+  padding: 0.6rem 1.1rem; font-size: 0.82rem; cursor: pointer;
+  transition: all .2s ease;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.1); }
+.light .btn-secondary { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.1); color: #1a2e1a; }
+.light .btn-secondary:hover { background: rgba(0,0,0,0.08); }
+
+.btn-danger {
+  background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5; font-weight: 600; border-radius: 1rem;
+  padding: 0.6rem 1.1rem; font-size: 0.82rem; cursor: pointer;
+  transition: all .2s ease;
+}
+.btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+.btn-icon {
+  width: 2.1rem; height: 2.1rem; display: flex; align-items: center; justify-content: center;
+  border-radius: 0.85rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: #9ca3af; cursor: pointer; transition: all .2s ease;
+}
+.btn-icon:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.light .btn-icon { background: rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.1); color: #4b5563; }
+.light .btn-icon:hover { background: rgba(0,0,0,0.08); color: #111827; }
+
+/* ---------- Toggle switch ---------- */
+.mana-switch { position: relative; width: 2.6rem; height: 1.5rem; display: inline-block; }
+.mana-switch input { opacity: 0; width: 0; height: 0; }
+.mana-switch .track {
+  position: absolute; inset: 0; background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 999px; transition: all .25s ease; cursor: pointer;
+}
+.mana-switch .thumb {
+  position: absolute; top: 2px; right: 2px; width: 1.1rem; height: 1.1rem; border-radius: 50%;
+  background: #d1d5db; transition: all .25s cubic-bezier(.4,0,.2,1);
+}
+.mana-switch input:checked + .track { background: rgba(132,204,22,0.35); border-color: #84cc16; }
+.mana-switch input:checked + .track .thumb { transform: translateX(-1.1rem); background: #bef264; }
+
+/* ---------- Badge ---------- */
+.badge { font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 999px; display: inline-flex; align-items: center; gap: .3rem; }
+.badge-on { background: rgba(132,204,22,0.15); color: #a3e635; border: 1px solid rgba(132,204,22,0.3); }
+.badge-off { background: rgba(148,163,184,0.12); color: #94a3b8; border: 1px solid rgba(148,163,184,0.25); }
+
+/* ---------- Modal ---------- */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(3,7,5,0.65); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 60;
+  opacity: 0; pointer-events: none; transition: opacity .25s ease; padding: 1rem;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: auto; }
+.modal-box {
+  transform: translateY(12px) scale(.98); transition: all .3s cubic-bezier(.4,0,.2,1);
+}
+.modal-backdrop.open .modal-box { transform: translateY(0) scale(1); }
+
+/* ---------- Skeleton loading ---------- */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.09) 37%, rgba(255,255,255,0.04) 63%);
+  background-size: 400% 100%; animation: skeleton-loading 1.4s ease infinite; border-radius: 0.85rem;
+}
+@keyframes skeleton-loading { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+
+/* ---------- Misc ---------- */
+.scroll-thin::-webkit-scrollbar { width: 5px; }
+.view-section { display: none; }
+.view-section.active { display: block; animation: fadeInUp .35s cubic-bezier(.4,0,.2,1); }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 900px) {
+  .admin-sidebar { position: fixed; top: 0; bottom: 0; right: 0; width: 78%; max-width: 300px; z-index: 50;
+    transform: translateX(100%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+  .admin-sidebar.open { transform: translateX(0); }
+  .sidebar-scrim { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 45; opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+  .sidebar-scrim.open { opacity: 1; pointer-events: auto; }
+}
+</style>
+<style>
+/* Single-file launcher */
+#login-screen, #admin-screen { min-height:100vh; }
+#admin-screen { display:none; }
+body { margin:0; }
+</style>
+</head>
+<body>
+<!-- Shared toast -->
+<div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-[100] transition-all duration-300 opacity-0 pointer-events-none translate-y-[-20px]">
+  <div class="flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl glass-card border border-mana border-opacity-40 text-white min-w-[300px] max-w-[92vw]">
+    <span id="toast-icon" class="text-2xl text-mana">🌱</span>
+    <div class="flex flex-col"><p id="toast-title" class="font-bold text-sm text-slate-100"></p><p id="toast-message" class="text-xs text-slate-400 mt-0.5"></p></div>
+  </div>
+</div>
+<div id="login-screen" class="min-h-screen flex items-center justify-center p-3 ambient-bg"><div class="w-full max-w-[420px] relative py-2 z-10">
+<div class="absolute -top-12 -left-12 w-48 h-48 bg-mana opacity-10 dark:opacity-20 rounded-full blur-[80px] pointer-events-none"></div>
+<div class="absolute -bottom-12 -right-12 w-48 h-48 bg-mana opacity-10 dark:opacity-20 rounded-full blur-[80px] pointer-events-none"></div>
+<!-- Top bar: theme only -->
+<div class="flex items-center justify-end px-2 mb-3 text-white dark:text-gray-300">
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-white bg-opacity-5 hover:bg-opacity-10 border border-white border-opacity-10 shadow-lg transition-all hover:scale-105 active:scale-95" onclick="toggleTheme()" title="تغییر پوسته">
+<svg class="w-5 h-5 text-gray-200" fill="none" id="theme-dark-icon" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<svg class="w-5 h-5 text-yellow-500 hidden" fill="none" id="theme-light-icon" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<div class="glass-card rounded-3xl p-6 md:p-7 w-full">
+<div class="flex flex-col items-center justify-center mb-4">
+<div class="w-14 h-14 relative mb-1">
+<svg class="w-full h-full drop-shadow-[0_4px_12px_rgba(132,204,22,0.45)]" viewbox="0 0 100 100">
+<defs>
+<lineargradient id="leafGrad" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#4d7c0f"></stop><stop offset="50%" stop-color="#84cc16"></stop><stop offset="100%" stop-color="#bef264"></stop>
+</lineargradient>
+<lineargradient id="circleGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#bef264" stop-opacity="0.9"></stop><stop offset="50%" stop-color="#84cc16" stop-opacity="0.6"></stop><stop offset="100%" stop-color="#15803d" stop-opacity="0.1"></stop>
+</lineargradient>
+</defs>
+<path d="M 50,92 A 42,42 0 1,1 88,38" fill="none" stroke="url(#circleGrad)" stroke-linecap="round" stroke-width="3"></path>
+<path d="M 43,58 C 30,51 24,37 36,32 C 43,33 46,41 45,50 C 45,54 44,57 43,58 Z" fill="url(#leafGrad)"></path>
+<path d="M 44,58 C 45,41 53,24 71,24 C 72,36 65,49 48,56 C 45,57 44,57 44,58 Z" fill="url(#leafGrad)"></path>
+<path d="M 43.5,58 Q 44,68 45,74 C 45,83 41,84 39,84" fill="none" stroke="#84cc16" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+</div>
+<h1 class="text-xl font-extrabold text-white tracking-wider drop-shadow-sm">پنل مدیریت مانـا</h1>
+<span class="text-[11px] text-[#bef264] font-medium mt-0.5 tracking-widest opacity-90">مدیریت محتوای عمومی مانا</span>
+</div>
+<div class="text-center mb-4">
+<p class="text-xs text-gray-400 flex items-center justify-center gap-1">
+                    برای ادامه، وارد حساب مدیریتی شوید
+                    <span class="text-mana animate-pulse">💚</span>
+</p>
+</div>
+<form class="space-y-3" id="admin-login-form">
+<div class="relative">
+<label class="block text-right text-[11px] text-gray-300 mb-1 mr-1 font-medium">ایمیل مدیر</label>
+<div class="relative flex items-center">
+<span class="absolute right-4 text-gray-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+<input class="glass-input w-full py-2.5 pr-12 pl-4 rounded-2xl text-sm focus:outline-none placeholder-gray-500 text-right" dir="ltr" id="admin-email" placeholder="admin@example.com" required="" type="email"/>
+</div>
+</div>
+<div class="relative">
+<label class="block text-right text-[11px] text-gray-300 mb-1 mr-1 font-medium">رمز عبور</label>
+<div class="relative flex items-center">
+<span class="absolute right-4 text-gray-400">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+<input class="glass-input w-full py-2.5 pr-12 pl-12 rounded-2xl text-sm focus:outline-none placeholder-gray-500 text-left" dir="ltr" id="admin-password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute left-4 text-gray-400 hover:text-white transition-colors" onclick="togglePasswordVisibility('admin-password', 'login-eye-icon')" type="button">
+<svg class="w-5 h-5" fill="none" id="login-eye-icon" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</div>
+<button class="w-full py-3 mt-1 rounded-2xl bg-gradient-to-r from-mana-dark to-mana hover:from-mana hover:to-mana-light text-white font-bold text-sm shadow-lg hover:shadow-mana/30 transition-all transform active:scale-95 flex items-center justify-center gap-2 cursor-pointer" id="login-submit-btn" type="submit">
+<span id="login-submit-label">ورود به پنل</span>
+<svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</form>
+<p class="text-center text-[11px] text-gray-500 mt-4 leading-5">
+                این پنل نسخه‌ی توسعه (Development) است. اطلاعات ورود را از مدیر پروژه دریافت کنید.
+            </p>
+</div>
+</div>
+<script>
+        // هش SHA-256 ایمیل و رمز عبور نسخه‌ی Development (رشته‌ی خام هیچ‌کجا ذخیره نشده)
+        window.__MANA_ADMIN_EMAIL_HASH__ = '6946561100f01ca695bf90d7f192c76409866a8a84ffeff5f79afa1bd39670fb';
+        window.__MANA_ADMIN_PASS_HASH__  = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
+    </script>
+<script>
+        function showToast(title, message, icon = '🌱') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-message').innerText = message;
+            document.getElementById('toast-icon').innerText = icon;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 4000);
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const buttonIcon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                buttonIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`;
+            } else {
+                input.type = 'password';
+                buttonIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const darkIcon = document.getElementById('theme-dark-icon');
+            const lightIcon = document.getElementById('theme-light-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark'); html.classList.add('light');
+                darkIcon.classList.add('hidden'); lightIcon.classList.remove('hidden');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.remove('light'); html.classList.add('dark');
+                lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.onload = function () {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                const darkIcon = document.getElementById('theme-dark-icon');
+                const lightIcon = document.getElementById('theme-light-icon');
+                if (darkIcon) darkIcon.classList.add('hidden');
+                if (lightIcon) lightIcon.classList.remove('hidden');
+            }
+        };
+
+    </script></div>
+<div id="admin-screen" class="min-h-screen ambient-bg text-gray-200 dark:text-gray-200"><div class="modal-backdrop" id="modal-backdrop">
+<div class="modal-box glass-card rounded-3xl w-full max-w-md p-5" id="modal-box"></div>
+</div>
+<div class="sidebar-scrim" id="sidebar-scrim" onclick="Admin.closeSidebar()"></div>
+<div class="flex min-h-screen">
+<!-- ================= Sidebar ================= -->
+<aside class="admin-sidebar w-[260px] shrink-0 p-4 flex flex-col gap-1 scroll-thin overflow-y-auto" id="admin-sidebar">
+<div class="flex items-center gap-2.5 px-2 py-3 mb-3">
+<div class="w-10 h-10 relative shrink-0">
+<svg class="w-full h-full drop-shadow-[0_4px_10px_rgba(132,204,22,0.4)]" viewbox="0 0 100 100">
+<defs>
+<lineargradient id="leafGrad2" x1="0%" x2="100%" y1="100%" y2="0%">
+<stop offset="0%" stop-color="#4d7c0f"></stop><stop offset="50%" stop-color="#84cc16"></stop><stop offset="100%" stop-color="#bef264"></stop>
+</lineargradient>
+<lineargradient id="circleGrad2" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#bef264" stop-opacity="0.9"></stop><stop offset="50%" stop-color="#84cc16" stop-opacity="0.6"></stop><stop offset="100%" stop-color="#15803d" stop-opacity="0.1"></stop>
+</lineargradient>
+</defs>
+<path d="M 50,92 A 42,42 0 1,1 88,38" fill="none" stroke="url(#circleGrad2)" stroke-linecap="round" stroke-width="3"></path>
+<path d="M 43,58 C 30,51 24,37 36,32 C 43,33 46,41 45,50 C 45,54 44,57 43,58 Z" fill="url(#leafGrad2)"></path>
+<path d="M 44,58 C 45,41 53,24 71,24 C 72,36 65,49 48,56 C 45,57 44,57 44,58 Z" fill="url(#leafGrad2)"></path>
+<path d="M 43.5,58 Q 44,68 45,74 C 45,83 41,84 39,84" fill="none" stroke="#84cc16" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+</div>
+<div class="flex flex-col leading-tight">
+<span class="font-extrabold text-white text-sm tracking-wide">مانـا</span>
+<span class="text-[10px] text-mana-light tracking-wider">Admin Panel</span>
+</div>
+</div>
+<nav class="flex flex-col gap-1 flex-1" id="sidebar-nav">
+<div class="nav-item active" data-view="dashboard">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>داشبورد</span>
+</div>
+<div class="nav-item" data-view="cards">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7zM3 11h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>کارت‌های صبح/ظهر/عصر/شب</span>
+</div>
+<div class="nav-item" data-view="images">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>مدیریت تصاویر</span>
+</div>
+<div class="nav-item" data-view="texts">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>متن‌های عمومی</span>
+</div>
+<div class="nav-item" data-view="playlist">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 19V6l12-2v13M9 19a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>پلی‌لیست</span>
+</div>
+<div class="nav-item" data-view="future">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 6v6l4 2M12 22a10 10 0 100-20 10 10 0 000 20z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>بخش‌های آینده</span>
+</div>
+</nav>
+<div class="mt-auto pt-3 border-t border-white/10">
+<div class="flex items-center gap-2.5 px-2 py-2">
+<div class="w-8 h-8 rounded-xl bg-gradient-to-br from-mana-dark to-mana flex items-center justify-center text-xs font-bold text-white shrink-0">A</div>
+<div class="flex flex-col leading-tight overflow-hidden">
+<span class="text-xs font-semibold text-gray-200 truncate" id="admin-user-email">—</span>
+<span class="text-[10px] text-gray-500">مدیر توسعه</span>
+</div>
+</div>
+<button class="nav-item w-full text-right mt-1 text-red-300 hover:text-red-200" onclick="Admin.logout()">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span>خروج از پنل</span>
+</button>
+</div>
+</aside>
+<!-- ================= Main ================= -->
+<div class="flex-1 min-w-0 flex flex-col">
+<!-- Topbar -->
+<header class="flex items-center justify-between gap-3 px-4 md:px-6 py-3.5 border-b border-white/5 sticky top-0 z-30 backdrop-blur-xl bg-[#0d131a]/60 light:bg-white/60">
+<div class="flex items-center gap-3 min-w-0">
+<button class="btn-icon md:hidden" onclick="Admin.openSidebar()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="min-w-0">
+<h1 class="text-base md:text-lg font-bold text-white truncate" id="page-title">داشبورد</h1>
+<p class="text-[11px] text-gray-500 truncate" id="page-subtitle">نمای کلی محتوای مدیریت‌شده‌ی مانا</p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="badge badge-off hidden sm:inline-flex" id="connection-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-current"></span> در حال بررسی
+                    </span>
+<button class="btn-icon" onclick="toggleTheme()" title="تغییر پوسته">
+<svg class="w-5 h-5" fill="none" id="theme-dark-icon" stroke="currentColor" viewbox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<svg class="w-5 h-5 hidden text-yellow-500" fill="none" id="theme-light-icon" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</header>
+<!-- Content -->
+<main class="flex-1 p-4 md:p-6 overflow-y-auto">
+<!-- Dashboard -->
+<section class="view-section active" id="view-dashboard"></section>
+<!-- Day cards -->
+<section class="view-section" id="view-cards"></section>
+<!-- Images -->
+<section class="view-section" id="view-images"></section>
+<!-- Texts -->
+<section class="view-section" id="view-texts"></section>
+<!-- Playlist -->
+<section class="view-section" id="view-playlist"></section>
+<!-- Future -->
+<section class="view-section" id="view-future"></section>
+</main>
+</div>
+</div>
+
+</div>
+<script>
+
+        // هش SHA-256 ایمیل و رمز عبور نسخه‌ی Development (رشته‌ی خام هیچ‌کجا ذخیره نشده)
+        window.__MANA_ADMIN_EMAIL_HASH__ = '6946561100f01ca695bf90d7f192c76409866a8a84ffeff5f79afa1bd39670fb';
+        window.__MANA_ADMIN_PASS_HASH__  = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
+    
+</script>
+<script>
+// In-page navigation replaces the original index.html/پنل داخلی redirects.
+window.showAdminScreen = function() {
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('admin-screen').style.display='block';
+  window.scrollTo(0,0);
+};
+window.showLoginScreen = function() {
+  document.getElementById('admin-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  window.scrollTo(0,0);
+};
+</script>
+<script>(function (window) {
+  'use strict';
+  const SESSION_KEY = 'mana_admin_session_v1';
+  function fallbackSha256(ascii) {
+    function rotr(n,x){return (x>>>n)|(x<<(32-n));}
+    var words=[], asciiBitLength=ascii.length*8, hash=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225], k=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,43022723,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031477,3329325298];
+    for(var i=ascii.length;i<asciiBitLength/8+9;i++) ascii+='\0';
+    var len=ascii.length; ascii=ascii.substring(0,len-1)+'\x80'+ascii.substring(len);
+    while((ascii.length*8)%512!==448) ascii+='\0';
+    ascii+=String.fromCharCode(0,0,0,0,0,0,0,0,(asciiBitLength>>>24)&255,(asciiBitLength>>>16)&255,(asciiBitLength>>>8)&255,asciiBitLength&255);
+    for(var i=0;i<ascii.length;i+=64){
+      var w=new Array(64),a=hash[0],b=hash[1],c=hash[2],d=hash[3],e=hash[4],f=hash[5],g=hash[6],h=hash[7];
+      for(var j=0;j<16;j++){var p=i+j*4;w[j]=((ascii.charCodeAt(p)&255)<<24)|((ascii.charCodeAt(p+1)&255)<<16)|((ascii.charCodeAt(p+2)&255)<<8)|(ascii.charCodeAt(p+3)&255);}
+      for(j=16;j<64;j++){var s0=rotr(7,w[j-15])^rotr(18,w[j-15])^(w[j-15]>>>3);var s1=rotr(17,w[j-2])^rotr(19,w[j-2])^(w[j-2]>>>10);w[j]=(w[j-16]+s0+w[j-7]+s1)|0;}
+      for(j=0;j<64;j++){var S1=rotr(6,e)^rotr(11,e)^rotr(25,e);var ch=(e&f)^((~e)&g);var t1=(h+S1+ch+k[j]+w[j])|0;var S0=rotr(2,a)^rotr(13,a)^rotr(22,a);var maj=(a&b)^(a&c)^(b&c);var t2=(S0+maj)|0;h=g;g=f;f=e;e=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;}
+      hash=[(hash[0]+a)|0,(hash[1]+b)|0,(hash[2]+c)|0,(hash[3]+d)|0,(hash[4]+e)|0,(hash[5]+f)|0,(hash[6]+g)|0,(hash[7]+h)|0];
+    }
+    return hash.map(function(x){return ('00000000'+(x>>>0).toString(16)).slice(-8);}).join('');
+  }
+  function utf8(text){return unescape(encodeURIComponent(text));}
+  async function sha256(text){
+    text=text.trim().toLowerCase();
+    if(window.crypto && window.crypto.subtle){
+      try{var buf=await window.crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');}catch(e){}
+    }
+    return fallbackSha256(utf8(text));
+  }
+  async function sha256Raw(text){
+    if(window.crypto && window.crypto.subtle){
+      try{var buf=await window.crypto.subtle.digest('SHA-256',new TextEncoder().encode(text));return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');}catch(e){}
+    }
+    return fallbackSha256(utf8(text));
+  }
+  async function attemptLogin(email,password){
+    var pair=await Promise.all([sha256(email),sha256Raw(password)]);
+    var ok=pair[0]===window.__MANA_ADMIN_EMAIL_HASH__ && pair[1]===window.__MANA_ADMIN_PASS_HASH__;
+    if(ok) window.sessionStorage.setItem(SESSION_KEY,JSON.stringify({email:email,at:new Date().toISOString()}));
+    return ok;
+  }
+  function isAuthenticated(){return !!window.sessionStorage.getItem(SESSION_KEY);}
+  function currentSession(){try{return JSON.parse(window.sessionStorage.getItem(SESSION_KEY)||'null');}catch(e){return null;}}
+  function logout(){window.sessionStorage.removeItem(SESSION_KEY);}
+  function guardAdminAccess(){if(!isAuthenticated() && window.showLoginScreen) window.showLoginScreen();}
+  window.ManaAuth={attemptLogin,isAuthenticated,currentSession,logout,guardAdminAccess};
+})(window);</script>
+<script>/**
+ * mana-admin / content-model.js
+ * -----------------------------------------------------------------------
+ * این فایل نماینده‌ی «پل ارتباطی» بین پنل مدیریت و سیستم محتوایی فعلی مانا
+ * (ManaContent / MANA_CONTENT_DEFAULTS / content.json) است.
+ *
+ * مهم: این فایل هیچ منطقی از خود اپلیکیشن مانا را بازنویسی نمی‌کند.
+ * فقط از همان الگوی ذخیره‌سازی که در پروژه‌ی مانا وجود دارد استفاده می‌کند:
+ *   - کلید override در localStorage:  mana_content_override_v1
+ *   - ساختار پایه (defaults):          MANA_CONTENT_DEFAULTS
+ *   - خروجی نهایی merge‌شده:            ManaContent
+ *
+ * وقتی به بک‌اند/فایل واقعی content.json وصل شدید، فقط کافیست توابع
+ * loadContent() و persistContent() در پایین همین فایل با fetch/PUT واقعی
+ * جایگزین شوند؛ بقیه‌ی پنل (UI) بدون تغییر کار خواهد کرد.
+ * -----------------------------------------------------------------------
+ */
+
+(function (window) {
+  'use strict';
+
+  const OVERRIDE_KEY = 'mana_content_override_v1';
+
+  /**
+   * ساختار پیش‌فرض محتوای مانا.
+   * این بخش معادل MANA_CONTENT_DEFAULTS در اپ اصلی است و صرفاً به عنوان
+   * fallback زمانی استفاده می‌شود که هنوز override‌ای ثبت نشده باشد.
+   */
+  const MANA_CONTENT_DEFAULTS = {
+    meta: {
+      version: 1,
+      lastEditedKey: null,
+      lastEditedAt: null,
+    },
+
+    // 2. کارت‌های صبح / ظهر / عصر / شب
+    dayCards: {
+      morning: {
+        key: 'morning',
+        label: 'صبح بخیر',
+        icon: '🌅',
+        title: 'صبح بخیر، امروز روز خوبیه برای شروع',
+        text: 'با یک نفس عمیق شروع کن؛ امروز هم یک قدم به هدف‌هات نزدیک‌تر می‌شی.',
+        image: null,
+        active: true,
+      },
+      noon: {
+        key: 'noon',
+        label: 'ظهر بخیر',
+        icon: '☀️',
+        title: 'ظهر بخیر',
+        text: 'یک نفس بکش، کمی استراحت کن و با انرژی ادامه بده.',
+        image: null,
+        active: true,
+      },
+      evening: {
+        key: 'evening',
+        label: 'عصر بخیر',
+        icon: '🌇',
+        title: 'عصر بخیر',
+        text: 'وقت خوبیه برای مرور کارهای امروز و برنامه‌ریزی برای فردا.',
+        image: null,
+        active: true,
+      },
+      night: {
+        key: 'night',
+        label: 'شب بخیر',
+        icon: '🌙',
+        title: 'شب بخیر',
+        text: 'امروز هر چقدر هم کوچیک، یک قدم ماندگار برداشتی. شب بخیر.',
+        image: null,
+        active: true,
+      },
+    },
+
+    // 3. تصاویر عمومی مانا (گالری مستقل از تصاویر کارت‌ها)
+    images: [
+      // { id, name, dataUrl, usedIn, uploadedAt }
+    ],
+
+    // 4. متن‌های عمومی
+    texts: {
+      philosophy: 'مانا یعنی ماندگاری؛ هر روز یک قدم کوچک که در طول زمان به تغییری بزرگ تبدیل می‌شود.',
+      slogan: 'هر روز، یک قدم ماندگار.',
+      motivationalQuotes: [
+        'پیشرفت، نه کمال؛ هر روز کمی بهتر از دیروز.',
+        'نظم امروز، آرامش فرداست.',
+      ],
+      focusTip: 'قبل از شروع مطالعه، تلفن همراه را در اتاق دیگری بگذار.',
+      personalMotivation: '',
+      generalMessages: [
+        // { id, title, body, active }
+      ],
+    },
+
+    // 5. پلی‌لیست (ساختار آماده؛ هنوز در اپ اصلی مصرف نمی‌شود)
+    playlist: [
+      // { id, title, artist, url, cover, order, active }
+    ],
+  };
+
+  /**
+   * merge عمیق و ایمن: مقادیر override روی defaults می‌نشینند،
+   * بدون اینکه کلیدهای جدید در defaults گم شوند.
+   */
+  function deepMerge(base, override) {
+    if (Array.isArray(base)) {
+      return Array.isArray(override) ? override : base;
+    }
+    if (base && typeof base === 'object') {
+      const result = { ...base };
+      if (override && typeof override === 'object') {
+        Object.keys(override).forEach((k) => {
+          result[k] = k in base ? deepMerge(base[k], override[k]) : override[k];
+        });
+      }
+      return result;
+    }
+    return override !== undefined ? override : base;
+  }
+
+  function loadContent() {
+    try {
+      const raw = window.localStorage.getItem(OVERRIDE_KEY);
+      const override = raw ? JSON.parse(raw) : {};
+      return deepMerge(MANA_CONTENT_DEFAULTS, override);
+    } catch (err) {
+      console.error('[mana-admin] خطا در خواندن content override:', err);
+      return JSON.parse(JSON.stringify(MANA_CONTENT_DEFAULTS));
+    }
+  }
+
+  function persistContent(content, editedKeyLabel) {
+    content.meta = content.meta || {};
+    content.meta.lastEditedKey = editedKeyLabel || content.meta.lastEditedKey || null;
+    content.meta.lastEditedAt = new Date().toISOString();
+    try {
+      window.localStorage.setItem(OVERRIDE_KEY, JSON.stringify(content));
+      return true;
+    } catch (err) {
+      console.error('[mana-admin] خطا در ذخیره content override:', err);
+      return false;
+    }
+  }
+
+  function resetContent() {
+    window.localStorage.removeItem(OVERRIDE_KEY);
+    return loadContent();
+  }
+
+  function uid(prefix) {
+    return (prefix || 'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  window.ManaContentStore = {
+    OVERRIDE_KEY,
+    DEFAULTS: MANA_CONTENT_DEFAULTS,
+    load: loadContent,
+    save: persistContent,
+    reset: resetContent,
+    uid,
+  };
+})(window);
+</script>
+
+<script>/**
+ * mana-admin / admin-app.js
+ * منطق اصلی پنل مدیریت مانا: routing بین بخش‌ها، رندر هر بخش، CRUD روی
+ * ManaContentStore، و کامپوننت‌های عمومی (Modal / Toast / Confirm / States).
+ */
+
+(function () {
+  'use strict';
+
+  let content = window.ManaContentStore.load();
+  let currentView = 'dashboard';
+
+  /* ---------------------------------------------------------------- *
+   * Utilities: Toast / Theme / Sidebar / Modal / Confirm
+   * ---------------------------------------------------------------- */
+
+  function showToast(title, message, icon) {
+    icon = icon || '🌱';
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-title').innerText = title;
+    document.getElementById('toast-message').innerText = message;
+    document.getElementById('toast-icon').innerText = icon;
+    toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => {
+      toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+      toast.classList.remove('opacity-100', 'translate-y-0');
+    }, 3800);
+  }
+  window.showToast = showToast;
+
+  window.toggleTheme = function () {
+    const html = document.documentElement;
+    const darkIcons = document.querySelectorAll('#theme-dark-icon');
+    const lightIcons = document.querySelectorAll('#theme-light-icon');
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark'); html.classList.add('light');
+      darkIcon.classList.add('hidden'); lightIcon.classList.remove('hidden');
+      localStorage.setItem('theme', 'light');
+    } else {
+      html.classList.remove('light'); html.classList.add('dark');
+      lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
+      localStorage.setItem('theme', 'dark');
+    }
+  };
+
+  function openModal(html) {
+    document.getElementById('modal-box').innerHTML = html;
+    document.getElementById('modal-backdrop').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('modal-backdrop').classList.remove('open');
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('modal-backdrop').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+  });
+
+  function confirmAction(opts) {
+    const { title, message, confirmLabel, danger, onConfirm } = opts;
+    openModal(`
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl flex items-center justify-center ${danger ? 'bg-red-500/15 text-red-300' : 'bg-mana/15 text-mana-light'} shrink-0 text-xl">
+            ${danger ? '⚠️' : '❓'}
+          </div>
+          <div>
+            <h3 class="font-bold text-white text-sm">${title}</h3>
+            <p class="text-xs text-gray-400 mt-0.5">${message}</p>
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 mt-1">
+          <button class="btn-secondary" id="confirm-cancel-btn">انصراف</button>
+          <button class="${danger ? 'btn-danger' : 'btn-primary'}" id="confirm-ok-btn">${confirmLabel || 'تأیید'}</button>
+        </div>
+      </div>
+    `);
+    document.getElementById('confirm-cancel-btn').onclick = closeModal;
+    document.getElementById('confirm-ok-btn').onclick = function () {
+      closeModal();
+      onConfirm && onConfirm();
+    };
+  }
+
+  function openSidebar() {
+    document.getElementById('admin-sidebar').classList.add('open');
+    document.getElementById('sidebar-scrim').classList.add('open');
+  }
+  function closeSidebar() {
+    document.getElementById('admin-sidebar').classList.remove('open');
+    document.getElementById('sidebar-scrim').classList.remove('open');
+  }
+
+  function persist(label) {
+    const ok = window.ManaContentStore.save(content, label);
+    if (ok) {
+      showToast('ذخیره شد', label ? `«${label}» با موفقیت به‌روزرسانی شد.` : 'تغییرات ذخیره شد.', '✅');
+    } else {
+      showToast('خطا در ذخیره‌سازی', 'تغییرات ذخیره نشد؛ فضای ذخیره‌سازی مرورگر را بررسی کنید.', '❌');
+    }
+    renderSidebarBadge();
+    if (currentView === 'dashboard') renderDashboard();
+  }
+
+  function fileToDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function escapeHtml(str) {
+    return (str || '').replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function timeAgo(iso) {
+    if (!iso) return '—';
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'همین الان';
+    if (mins < 60) return `${mins} دقیقه پیش`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs} ساعت پیش`;
+    const days = Math.floor(hrs / 24);
+    return `${days} روز پیش`;
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Sidebar badge (connection / status) on topbar
+   * ---------------------------------------------------------------- */
+  function renderSidebarBadge() {
+    const badge = document.getElementById('connection-badge');
+    const hasOverride = !!window.localStorage.getItem(window.ManaContentStore.OVERRIDE_KEY);
+    badge.classList.remove('hidden');
+    if (hasOverride) {
+      badge.className = 'badge badge-on hidden sm:inline-flex';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-current"></span> متصل به ManaContent';
+    } else {
+      badge.className = 'badge badge-off hidden sm:inline-flex';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-current"></span> پیش‌فرض (بدون override)';
+    }
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Routing
+   * ---------------------------------------------------------------- */
+  const VIEW_META = {
+    dashboard: { title: 'داشبورد', subtitle: 'نمای کلی محتوای مدیریت‌شده‌ی مانا' },
+    cards: { title: 'کارت‌های صبح / ظهر / عصر / شب', subtitle: 'محتوای نمایشی هر بازه‌ی روز' },
+    images: { title: 'مدیریت تصاویر', subtitle: 'گالری تصاویر مورد استفاده در مانا' },
+    texts: { title: 'متن‌های عمومی', subtitle: 'فلسفه، شعار، جملات انگیزشی و پیام‌ها' },
+    playlist: { title: 'پلی‌لیست', subtitle: 'ساختار مدیریت آهنگ‌های مانا' },
+    future: { title: 'بخش‌های آینده', subtitle: 'نقشه‌ی راه توسعه‌ی پنل' },
+  };
+
+  function navigate(view) {
+    currentView = view;
+    document.querySelectorAll('.nav-item[data-view]').forEach((el) => {
+      el.classList.toggle('active', el.dataset.view === view);
+    });
+    document.querySelectorAll('.view-section').forEach((el) => el.classList.remove('active'));
+    document.getElementById('view-' + view).classList.add('active');
+    document.getElementById('page-title').innerText = VIEW_META[view].title;
+    document.getElementById('page-subtitle').innerText = VIEW_META[view].subtitle;
+    closeSidebar();
+
+    ({
+      dashboard: renderDashboard,
+      cards: renderCards,
+      images: renderImages,
+      texts: renderTexts,
+      playlist: renderPlaylist,
+      future: renderFuture,
+    })[view]();
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Dashboard
+   * ---------------------------------------------------------------- */
+  function countManageable() {
+    const cards = Object.keys(content.dayCards).length;
+    const images = content.images.length;
+    const quotes = content.texts.motivationalQuotes.length;
+    const messages = content.texts.generalMessages.length;
+    const songs = content.playlist.length;
+    return cards + images + quotes + messages + songs + 4; // +4 for core text fields
+  }
+
+  function renderDashboard() {
+    const el = document.getElementById('view-dashboard');
+    el.innerHTML = `<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        ${statTile('📦', 'محتوای قابل مدیریت', countManageable() + ' مورد', 'text-mana-light')}
+        ${statTile('🕒', 'آخرین تغییر', timeAgo(content.meta.lastEditedAt), 'text-blue-300')}
+        ${statTile('✏️', 'آخرین محتوای ویرایش‌شده', content.meta.lastEditedKey || 'هنوز ویرایشی ثبت نشده', 'text-amber-300')}
+        ${statTile(window.localStorage.getItem(window.ManaContentStore.OVERRIDE_KEY) ? '🟢' : '⚪️', 'وضعیت اتصال به مانا', window.localStorage.getItem(window.ManaContentStore.OVERRIDE_KEY) ? 'فعال (override ثبت‌شده)' : 'پیش‌فرض', 'text-mana-light')}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="glass-card rounded-3xl p-5">
+          <h3 class="font-bold text-white text-sm mb-3">وضعیت محتوای فعلی</h3>
+          <div class="flex flex-col divide-y divide-white/5">
+            ${dashRow('کارت‌های صبح/ظهر/عصر/شب', Object.values(content.dayCards).filter(c => c.active).length + ' از ' + Object.keys(content.dayCards).length + ' فعال', 'cards')}
+            ${dashRow('تصاویر ثبت‌شده', content.images.length + ' تصویر', 'images')}
+            ${dashRow('جملات انگیزشی', content.texts.motivationalQuotes.length + ' جمله', 'texts')}
+            ${dashRow('پیام‌های عمومی', content.texts.generalMessages.filter(m => m.active).length + ' فعال از ' + content.texts.generalMessages.length, 'texts')}
+            ${dashRow('آهنگ‌های پلی‌لیست', content.playlist.length + ' آهنگ (ساختار آماده)', 'playlist')}
+          </div>
+        </div>
+
+        <div class="glass-card rounded-3xl p-5">
+          <h3 class="font-bold text-white text-sm mb-3">دسترسی سریع</h3>
+          <div class="grid grid-cols-2 gap-2.5">
+            ${quickLink('cards', '🃏', 'ویرایش کارت‌های روز')}
+            ${quickLink('images', '🖼️', 'افزودن تصویر جدید')}
+            ${quickLink('texts', '📝', 'ویرایش متن‌ها')}
+            ${quickLink('playlist', '🎵', 'مدیریت پلی‌لیست')}
+          </div>
+          <div class="mt-4 pt-4 border-t border-white/5">
+            <button id="reset-all-btn" class="btn-secondary w-full">بازگشت کل محتوا به پیش‌فرض</button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('reset-all-btn').onclick = function () {
+      confirmAction({
+        title: 'بازگشت به پیش‌فرض',
+        message: 'تمام تغییرات اعمال‌شده روی محتوای مانا حذف و به مقادیر پیش‌فرض بازمی‌گردد. این عملیات قابل بازگشت نیست.',
+        confirmLabel: 'بازگشت به پیش‌فرض',
+        danger: true,
+        onConfirm: function () {
+          content = window.ManaContentStore.reset();
+          showToast('بازنشانی شد', 'محتوا به حالت پیش‌فرض بازگشت.', '♻️');
+          renderSidebarBadge();
+          renderDashboard();
+        },
+      });
+    };
+    renderSidebarBadge();
+  }
+
+  function statTile(icon, label, value, colorClass) {
+    return `<div class="glass-card stat-tile">
+      <div class="text-2xl mb-2">${icon}</div>
+      <div class="text-[11px] text-gray-400 mb-1">${label}</div>
+      <div class="text-sm font-bold ${colorClass || 'text-white'} truncate">${escapeHtml(String(value))}</div>
+    </div>`;
+  }
+  function dashRow(label, value, view) {
+    return `<button data-nav="${view}" class="dash-row flex items-center justify-between py-2.5 text-right hover:opacity-80 transition-opacity">
+      <span class="text-xs text-gray-300">${label}</span>
+      <span class="text-xs font-semibold text-mana-light">${value}</span>
+    </button>`;
+  }
+  function quickLink(view, icon, label) {
+    return `<button data-nav="${view}" class="quick-link flex flex-col items-center justify-center gap-1.5 py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all">
+      <span class="text-xl">${icon}</span>
+      <span class="text-[11px] text-gray-300 text-center">${label}</span>
+    </button>`;
+  }
+
+  document.addEventListener('click', function (e) {
+    const navBtn = e.target.closest('[data-nav]');
+    if (navBtn) navigate(navBtn.dataset.nav);
+  });
+
+  /* ---------------------------------------------------------------- *
+   * Day cards (morning / noon / evening / night)
+   * ---------------------------------------------------------------- */
+  function renderCards() {
+    const el = document.getElementById('view-cards');
+    const keys = ['morning', 'noon', 'evening', 'night'];
+    el.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      ${keys.map(cardBlock).join('')}
+    </div>`;
+    keys.forEach((k) => {
+      document.getElementById('edit-card-' + k).onclick = () => openCardEditor(k);
+      const sw = document.getElementById('switch-card-' + k);
+      sw.onchange = function () {
+        content.dayCards[k].active = sw.checked;
+        persist(content.dayCards[k].label);
+        renderCards();
+      };
+    });
+  }
+
+  function cardBlock(k) {
+    const c = content.dayCards[k];
+    return `<div class="glass-card rounded-3xl p-5">
+      <div class="flex items-start justify-between mb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">${c.icon}</span>
+          <div>
+            <h3 class="font-bold text-white text-sm">${c.label}</h3>
+            <span class="badge ${c.active ? 'badge-on' : 'badge-off'} mt-1">${c.active ? 'فعال' : 'غیرفعال'}</span>
+          </div>
+        </div>
+        <label class="mana-switch">
+          <input type="checkbox" id="switch-card-${k}" ${c.active ? 'checked' : ''}>
+          <span class="track"><span class="thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden border border-white/10 mb-3">
+        ${c.image ? `<img src="${c.image}" class="w-full h-32 object-cover">` : `<div class="w-full h-24 flex items-center justify-center text-gray-500 text-xs bg-white/5">بدون تصویر</div>`}
+        <div class="p-3 bg-black/20">
+          <p class="text-sm font-bold text-white mb-1">${escapeHtml(c.title)}</p>
+          <p class="text-xs text-gray-400 leading-5">${escapeHtml(c.text)}</p>
+        </div>
+      </div>
+
+      <button id="edit-card-${k}" class="btn-secondary w-full">ویرایش کارت</button>
+    </div>`;
+  }
+
+  function openCardEditor(k) {
+    const c = content.dayCards[k];
+    openModal(`
+      <div class="flex flex-col gap-3">
+        <h3 class="font-bold text-white text-sm">ویرایش کارت «${c.label}»</h3>
+
+        <div>
+          <label class="block text-[11px] text-gray-400 mb-1">عنوان</label>
+          <input id="m-title" value="${escapeHtml(c.title)}" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm">
+        </div>
+        <div>
+          <label class="block text-[11px] text-gray-400 mb-1">متن</label>
+          <textarea id="m-text" rows="3" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm resize-none">${escapeHtml(c.text)}</textarea>
+        </div>
+        <div>
+          <label class="block text-[11px] text-gray-400 mb-1">تصویر کارت</label>
+          <div class="flex items-center gap-3">
+            <div id="m-preview" class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center shrink-0">
+              ${c.image ? `<img src="${c.image}" class="w-full h-full object-cover">` : `<span class="text-[10px] text-gray-500">بدون تصویر</span>`}
+            </div>
+            <input type="file" id="m-file" accept="image/*" class="text-xs text-gray-400">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 mt-2">
+          <button class="btn-secondary" id="m-cancel">انصراف</button>
+          <button class="btn-primary" id="m-save">ذخیره تغییرات</button>
+        </div>
+      </div>
+    `);
+
+    document.getElementById('m-file').addEventListener('change', async function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const dataUrl = await fileToDataUrl(file);
+      document.getElementById('m-preview').innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover">`;
+      document.getElementById('m-file').dataset.pending = dataUrl;
+    });
+
+    document.getElementById('m-cancel').onclick = closeModal;
+    document.getElementById('m-save').onclick = function () {
+      c.title = document.getElementById('m-title').value.trim() || c.title;
+      c.text = document.getElementById('m-text').value.trim();
+      const pending = document.getElementById('m-file').dataset.pending;
+      if (pending) c.image = pending;
+      closeModal();
+      persist(c.label);
+      renderCards();
+    };
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Images
+   * ---------------------------------------------------------------- */
+  function renderImages() {
+    const el = document.getElementById('view-images');
+    el.innerHTML = `
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-xs text-gray-400">تصاویری که در مانا استفاده می‌شوند را اینجا مدیریت کنید.</p>
+        <label class="btn-primary cursor-pointer">
+          افزودن تصویر
+          <input type="file" id="img-upload-input" accept="image/*" class="hidden">
+        </label>
+      </div>
+      <div id="images-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3"></div>
+    `;
+    const grid = document.getElementById('images-grid');
+
+    if (content.images.length === 0) {
+      grid.className = '';
+      grid.innerHTML = emptyState('🖼️', 'هنوز تصویری اضافه نشده', 'با دکمه‌ی «افزودن تصویر» اولین تصویر گالری مانا را ثبت کنید.');
+    } else {
+      grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3';
+      grid.innerHTML = content.images.map(imageTile).join('');
+      content.images.forEach((img) => {
+        document.getElementById('img-delete-' + img.id).onclick = () => deleteImage(img.id);
+        document.getElementById('img-replace-' + img.id).addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          img.dataUrl = await fileToDataUrl(file);
+          persist(img.name);
+          renderImages();
+        });
+      });
+    }
+
+    document.getElementById('img-upload-input').addEventListener('change', async function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const dataUrl = await fileToDataUrl(file);
+        content.images.push({
+          id: window.ManaContentStore.uid('img'),
+          name: file.name,
+          dataUrl,
+          usedIn: 'بدون استفاده',
+          uploadedAt: new Date().toISOString(),
+        });
+        persist(file.name);
+        renderImages();
+      } catch (err) {
+        showToast('خطا در آپلود', 'بارگذاری تصویر با خطا مواجه شد.', '❌');
+      }
+      e.target.value = '';
+    });
+  }
+
+  function imageTile(img) {
+    return `<div class="glass-card rounded-2xl overflow-hidden">
+      <div class="w-full h-28 bg-white/5">
+        <img src="${img.dataUrl}" class="w-full h-full object-cover">
+      </div>
+      <div class="p-2.5">
+        <p class="text-[11px] font-semibold text-gray-200 truncate">${escapeHtml(img.name)}</p>
+        <p class="text-[10px] text-gray-500 truncate mb-2">${escapeHtml(img.usedIn)}</p>
+        <div class="flex items-center gap-1.5">
+          <label class="btn-icon flex-1 !rounded-lg cursor-pointer" title="جایگزینی">
+            ↺
+            <input type="file" id="img-replace-${img.id}" accept="image/*" class="hidden">
+          </label>
+          <button id="img-delete-${img.id}" class="btn-icon flex-1 !rounded-lg text-red-300" title="حذف">✕</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function deleteImage(id) {
+    const img = content.images.find((i) => i.id === id);
+    confirmAction({
+      title: 'حذف تصویر',
+      message: `تصویر «${img.name}» حذف شود؟`,
+      confirmLabel: 'حذف تصویر',
+      danger: true,
+      onConfirm: function () {
+        content.images = content.images.filter((i) => i.id !== id);
+        persist('حذف تصویر');
+        renderImages();
+      },
+    });
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Texts
+   * ---------------------------------------------------------------- */
+  function renderTexts() {
+    const t = content.texts;
+    const el = document.getElementById('view-texts');
+    el.innerHTML = `
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="glass-card rounded-3xl p-5 flex flex-col gap-3">
+          <h3 class="font-bold text-white text-sm">متن‌های اصلی</h3>
+          <div>
+            <label class="block text-[11px] text-gray-400 mb-1">فلسفه مانا</label>
+            <textarea id="t-philosophy" rows="3" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm resize-none">${escapeHtml(t.philosophy)}</textarea>
+          </div>
+          <div>
+            <label class="block text-[11px] text-gray-400 mb-1">شعار مانا</label>
+            <input id="t-slogan" value="${escapeHtml(t.slogan)}" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm">
+          </div>
+          <div>
+            <label class="block text-[11px] text-gray-400 mb-1">نکته تمرکز مانا</label>
+            <textarea id="t-focus" rows="2" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm resize-none">${escapeHtml(t.focusTip)}</textarea>
+          </div>
+          <div>
+            <label class="block text-[11px] text-gray-400 mb-1">جمله انگیزشی شخصی</label>
+            <textarea id="t-personal" rows="2" placeholder="اختیاری" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm resize-none">${escapeHtml(t.personalMotivation)}</textarea>
+          </div>
+          <button id="save-main-texts" class="btn-primary self-start">ذخیره متن‌ها</button>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <div class="glass-card rounded-3xl p-5">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-white text-sm">جملات انگیزشی</h3>
+              <button id="add-quote-btn" class="btn-icon" title="افزودن">+</button>
+            </div>
+            <div id="quotes-list" class="flex flex-col gap-2"></div>
+          </div>
+
+          <div class="glass-card rounded-3xl p-5">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-white text-sm">پیام‌های عمومی</h3>
+              <button id="add-message-btn" class="btn-icon" title="افزودن">+</button>
+            </div>
+            <div id="messages-list" class="flex flex-col gap-2"></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('save-main-texts').onclick = function () {
+      t.philosophy = document.getElementById('t-philosophy').value.trim();
+      t.slogan = document.getElementById('t-slogan').value.trim();
+      t.focusTip = document.getElementById('t-focus').value.trim();
+      t.personalMotivation = document.getElementById('t-personal').value.trim();
+      persist('متن‌های عمومی مانا');
+    };
+
+    renderQuotesList();
+    renderMessagesList();
+
+    document.getElementById('add-quote-btn').onclick = function () {
+      t.motivationalQuotes.push('جمله‌ی انگیزشی جدید...');
+      persist('جملات انگیزشی');
+      renderQuotesList();
+    };
+    document.getElementById('add-message-btn').onclick = function () {
+      t.generalMessages.push({ id: window.ManaContentStore.uid('msg'), title: 'پیام جدید', body: '', active: true });
+      persist('پیام‌های عمومی');
+      renderMessagesList();
+    };
+  }
+
+  function renderQuotesList() {
+    const t = content.texts;
+    const wrap = document.getElementById('quotes-list');
+    if (t.motivationalQuotes.length === 0) {
+      wrap.innerHTML = emptyState('💬', 'جمله‌ای ثبت نشده', 'با آیکون + یک جمله‌ی انگیزشی اضافه کنید.', true);
+      return;
+    }
+    wrap.innerHTML = t.motivationalQuotes.map((q, i) => `
+      <div class="flex items-center gap-2">
+        <input data-idx="${i}" class="quote-input glass-input flex-1 py-2 px-3 rounded-xl text-xs" value="${escapeHtml(q)}">
+        <button data-idx="${i}" class="quote-del btn-icon !rounded-lg text-red-300 shrink-0">✕</button>
+      </div>`).join('');
+    wrap.querySelectorAll('.quote-input').forEach((inp) => {
+      inp.addEventListener('change', function () {
+        t.motivationalQuotes[+this.dataset.idx] = this.value.trim();
+        persist('جملات انگیزشی');
+      });
+    });
+    wrap.querySelectorAll('.quote-del').forEach((btn) => {
+      btn.onclick = function () {
+        t.motivationalQuotes.splice(+this.dataset.idx, 1);
+        persist('جملات انگیزشی');
+        renderQuotesList();
+      };
+    });
+  }
+
+  function renderMessagesList() {
+    const t = content.texts;
+    const wrap = document.getElementById('messages-list');
+    if (t.generalMessages.length === 0) {
+      wrap.innerHTML = emptyState('📣', 'پیامی ثبت نشده', 'با آیکون + یک پیام عمومی اضافه کنید.', true);
+      return;
+    }
+    wrap.innerHTML = t.generalMessages.map((m) => `
+      <div class="rounded-2xl border border-white/10 p-3">
+        <div class="flex items-center justify-between mb-2">
+          <input data-id="${m.id}" class="msg-title glass-input flex-1 ml-2 py-1.5 px-3 rounded-lg text-xs" value="${escapeHtml(m.title)}">
+          <div class="flex items-center gap-1.5 shrink-0">
+            <label class="mana-switch">
+              <input type="checkbox" class="msg-active" data-id="${m.id}" ${m.active ? 'checked' : ''}>
+              <span class="track"><span class="thumb"></span></span>
+            </label>
+            <button class="msg-del btn-icon !rounded-lg text-red-300" data-id="${m.id}">✕</button>
+          </div>
+        </div>
+        <textarea data-id="${m.id}" rows="2" class="msg-body glass-input w-full py-2 px-3 rounded-lg text-xs resize-none" placeholder="متن پیام">${escapeHtml(m.body)}</textarea>
+      </div>`).join('');
+
+    wrap.querySelectorAll('.msg-title, .msg-body').forEach((el) => {
+      el.addEventListener('change', function () {
+        const m = t.generalMessages.find((x) => x.id === this.dataset.id);
+        if (this.classList.contains('msg-title')) m.title = this.value.trim();
+        else m.body = this.value.trim();
+        persist('پیام‌های عمومی');
+      });
+    });
+    wrap.querySelectorAll('.msg-active').forEach((el) => {
+      el.addEventListener('change', function () {
+        const m = t.generalMessages.find((x) => x.id === this.dataset.id);
+        m.active = this.checked;
+        persist('پیام‌های عمومی');
+      });
+    });
+    wrap.querySelectorAll('.msg-del').forEach((el) => {
+      el.onclick = function () {
+        t.generalMessages = t.generalMessages.filter((x) => x.id !== this.dataset.id);
+        persist('پیام‌های عمومی');
+        renderMessagesList();
+      };
+    });
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Playlist
+   * ---------------------------------------------------------------- */
+  function renderPlaylist() {
+    const el = document.getElementById('view-playlist');
+    el.innerHTML = `
+      <div class="flex items-center justify-between mb-4 gap-2 flex-wrap">
+        <div class="flex items-center gap-2">
+          <span class="badge badge-off">ساختار آماده — هنوز در اپ مصرف نمی‌شود</span>
+        </div>
+        <button id="add-song-btn" class="btn-primary">افزودن آهنگ</button>
+      </div>
+      <div id="playlist-list" class="flex flex-col gap-2.5"></div>
+    `;
+    document.getElementById('add-song-btn').onclick = () => openSongEditor(null);
+    renderPlaylistList();
+  }
+
+  function renderPlaylistList() {
+    const wrap = document.getElementById('playlist-list');
+    const list = content.playlist.slice().sort((a, b) => a.order - b.order);
+    if (list.length === 0) {
+      wrap.innerHTML = emptyState('🎵', 'هنوز آهنگی اضافه نشده', 'با دکمه‌ی «افزودن آهنگ» اولین آهنگ پلی‌لیست مانا را ثبت کنید.');
+      return;
+    }
+    wrap.innerHTML = list.map((s, i) => `
+      <div class="glass-card rounded-2xl p-3 flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl overflow-hidden bg-white/5 shrink-0 flex items-center justify-center">
+          ${s.cover ? `<img src="${s.cover}" class="w-full h-full object-cover">` : '<span class="text-lg">🎵</span>'}
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-semibold text-white truncate">${escapeHtml(s.title)}</p>
+          <p class="text-[11px] text-gray-400 truncate">${escapeHtml(s.artist)}</p>
+        </div>
+        <span class="badge ${s.active ? 'badge-on' : 'badge-off'} shrink-0">${s.active ? 'فعال' : 'غیرفعال'}</span>
+        <div class="flex items-center gap-1 shrink-0">
+          <button data-id="${s.id}" data-dir="up" class="song-move btn-icon !rounded-lg" ${i === 0 ? 'disabled style="opacity:.3"' : ''}>↑</button>
+          <button data-id="${s.id}" data-dir="down" class="song-move btn-icon !rounded-lg" ${i === list.length - 1 ? 'disabled style="opacity:.3"' : ''}>↓</button>
+          <button data-id="${s.id}" class="song-edit btn-icon !rounded-lg">✎</button>
+          <button data-id="${s.id}" class="song-del btn-icon !rounded-lg text-red-300">✕</button>
+        </div>
+      </div>`).join('');
+
+    wrap.querySelectorAll('.song-edit').forEach((b) => b.onclick = () => openSongEditor(content.playlist.find(s => s.id === b.dataset.id)));
+    wrap.querySelectorAll('.song-del').forEach((b) => b.onclick = () => deleteSong(b.dataset.id));
+    wrap.querySelectorAll('.song-move').forEach((b) => b.onclick = () => moveSong(b.dataset.id, b.dataset.dir));
+  }
+
+  function moveSong(id, dir) {
+    const list = content.playlist.slice().sort((a, b) => a.order - b.order);
+    const idx = list.findIndex((s) => s.id === id);
+    const swapIdx = dir === 'up' ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= list.length) return;
+    const tmp = list[idx].order;
+    list[idx].order = list[swapIdx].order;
+    list[swapIdx].order = tmp;
+    persist('ترتیب پلی‌لیست');
+    renderPlaylistList();
+  }
+
+  function deleteSong(id) {
+    const song = content.playlist.find((s) => s.id === id);
+    confirmAction({
+      title: 'حذف آهنگ',
+      message: `آهنگ «${song.title}» از پلی‌لیست حذف شود؟`,
+      confirmLabel: 'حذف آهنگ',
+      danger: true,
+      onConfirm: function () {
+        content.playlist = content.playlist.filter((s) => s.id !== id);
+        persist('حذف آهنگ');
+        renderPlaylistList();
+      },
+    });
+  }
+
+  function openSongEditor(song) {
+    const isNew = !song;
+    const s = song || { id: null, title: '', artist: '', url: '', cover: null, active: true, order: content.playlist.length };
+    openModal(`
+      <div class="flex flex-col gap-3">
+        <h3 class="font-bold text-white text-sm">${isNew ? 'افزودن آهنگ جدید' : 'ویرایش آهنگ'}</h3>
+        <div>
+          <label class="block text-[11px] text-gray-400 mb-1">عنوان آهنگ</label>
+          <input id="s-title" value="${escapeHtml(s.title)}" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm">
+        </div>
+        <div>
+          <label class="block text-[11px] text-gray-400 mb-1">نام هنرمند</label>
+          <input id="s-artist" value="${escapeHtml(s.artist)}" class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm">
+        </div>
+        <div>
+          <label class="block text-[11px] text-gray-400 mb-1">لینک آهنگ</label>
+          <input id="s-url" value="${escapeHtml(s.url)}" dir="ltr" placeholder="https://..." class="glass-input w-full py-2.5 px-4 rounded-2xl text-sm">
+        </div>
+        <div>
+          <label class="block text-[11px] text-gray-400 mb-1">کاور</label>
+          <div class="flex items-center gap-3">
+            <div id="s-preview" class="w-14 h-14 rounded-xl overflow-hidden border border-white/10 bg-white/5 flex items-center justify-center shrink-0">
+              ${s.cover ? `<img src="${s.cover}" class="w-full h-full object-cover">` : '<span class="text-lg">🎵</span>'}
+            </div>
+            <input type="file" id="s-file" accept="image/*" class="text-xs text-gray-400">
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 mt-2">
+          <button class="btn-secondary" id="s-cancel">انصراف</button>
+          <button class="btn-primary" id="s-save">${isNew ? 'افزودن آهنگ' : 'ذخیره تغییرات'}</button>
+        </div>
+      </div>
+    `);
+
+    document.getElementById('s-file').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const dataUrl = await fileToDataUrl(file);
+      document.getElementById('s-preview').innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover">`;
+      document.getElementById('s-file').dataset.pending = dataUrl;
+    });
+
+    document.getElementById('s-cancel').onclick = closeModal;
+    document.getElementById('s-save').onclick = function () {
+      const title = document.getElementById('s-title').value.trim();
+      if (!title) { showToast('اطلاعات ناقص', 'عنوان آهنگ الزامی است.', '⚠️'); return; }
+      s.title = title;
+      s.artist = document.getElementById('s-artist').value.trim();
+      s.url = document.getElementById('s-url').value.trim();
+      const pending = document.getElementById('s-file').dataset.pending;
+      if (pending) s.cover = pending;
+      if (isNew) {
+        s.id = window.ManaContentStore.uid('song');
+        content.playlist.push(s);
+      }
+      closeModal();
+      persist(isNew ? 'افزودن آهنگ' : 'ویرایش آهنگ');
+      renderPlaylistList();
+    };
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Future sections roadmap
+   * ---------------------------------------------------------------- */
+  function renderFuture() {
+    const el = document.getElementById('view-future');
+    const roadmap = [
+      { icon: '🏆', title: 'Achievement‌ها', desc: 'مدیریت نشان‌ها و دستاوردهای کاربر' },
+      { icon: '🔔', title: 'اعلان‌ها', desc: 'تعریف و زمان‌بندی اعلان‌های مانا' },
+      { icon: '✨', title: 'محتوای انگیزشی', desc: 'کتابخانه‌ی جامع‌تر محتوای انگیزشی' },
+      { icon: '🖼️', title: 'تصاویر جدید', desc: 'دسته‌بندی و برچسب‌گذاری تصاویر' },
+      { icon: '⚙️', title: 'تنظیمات عمومی', desc: 'پیکربندی سراسری اپلیکیشن مانا' },
+    ];
+    el.innerHTML = `
+      <div class="glass-card rounded-3xl p-6 mb-4">
+        <h3 class="font-bold text-white text-sm mb-1">ساختار پنل برای توسعه‌ی آینده آماده است</h3>
+        <p class="text-xs text-gray-400 leading-6">هر بخش جدید بدون بازطراحی کامل، به‌صورت یک آیتم Sidebar و یک view مستقل به پنل اضافه می‌شود. بخش‌های پیشنهادی بعدی:</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        ${roadmap.map((r) => `
+          <div class="glass-card rounded-2xl p-4 flex items-start gap-3">
+            <span class="text-xl">${r.icon}</span>
+            <div>
+              <p class="text-sm font-semibold text-white">${r.title}</p>
+              <p class="text-[11px] text-gray-400 mt-0.5">${r.desc}</p>
+              <span class="badge badge-off mt-2">به‌زودی</span>
+            </div>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Shared: empty state
+   * ---------------------------------------------------------------- */
+  function emptyState(icon, title, desc, compact) {
+    return `<div class="${compact ? 'py-6' : 'py-14'} flex flex-col items-center justify-center text-center gap-2 col-span-full">
+      <span class="text-3xl opacity-70">${icon}</span>
+      <p class="text-sm font-semibold text-gray-300">${title}</p>
+      <p class="text-xs text-gray-500 max-w-xs">${desc}</p>
+    </div>`;
+  }
+
+  /* ---------------------------------------------------------------- *
+   * Init
+   * ---------------------------------------------------------------- */
+  window.Admin = {
+    openSidebar, closeSidebar,
+    logout: function () {
+      confirmAction({
+        title: 'خروج از پنل',
+        message: 'می‌خواهید از پنل مدیریت مانا خارج شوید؟',
+        confirmLabel: 'خروج',
+        danger: false,
+        onConfirm: function () {
+          window.ManaAuth.logout();
+          if (window.showLoginScreen) window.showLoginScreen();
+        },
+      });
+    },
+  };
+
+  window.addEventListener('DOMContentLoaded', function () {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      document.getElementById('theme-dark-icon').classList.add('hidden');
+      document.getElementById('theme-light-icon').classList.remove('hidden');
+    }
+
+    const session = window.ManaAuth.currentSession();
+    if (session) document.getElementById('admin-user-email').innerText = session.email;
+
+    document.querySelectorAll('.nav-item[data-view]').forEach((el) => {
+      el.addEventListener('click', () => navigate(el.dataset.view));
+    });
+
+    navigate('dashboard');
+  });
+})();
+</script>
+<script>
+// Login interactions adapted from the original file.
+
+        function showToast(title, message, icon = '🌱') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-message').innerText = message;
+            document.getElementById('toast-icon').innerText = icon;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-[-20px]');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 4000);
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const buttonIcon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                buttonIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`;
+            } else {
+                input.type = 'password';
+                buttonIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const darkIcon = document.getElementById('theme-dark-icon');
+            const lightIcon = document.getElementById('theme-light-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark'); html.classList.add('light');
+                darkIcon.classList.add('hidden'); lightIcon.classList.remove('hidden');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.remove('light'); html.classList.add('dark');
+                lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.onload = function () {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                document.getElementById('theme-dark-icon').classList.add('hidden');
+                document.getElementById('theme-light-icon').classList.remove('hidden');
+            }
+            // اگر از قبل لاگین است، مستقیم به داشبورد برود
+            if (window.ManaAuth.isAuthenticated()) {
+                window.showAdminScreen();
+            }
+        };
+
+        document.getElementById('admin-login-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const btn = document.getElementById('login-submit-btn');
+            const label = document.getElementById('login-submit-label');
+            const email = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+
+            label.innerText = 'در حال بررسی...';
+            btn.classList.add('opacity-70', 'pointer-events-none');
+
+            const ok = await window.ManaAuth.attemptLogin(email, password);
+
+            if (ok) {
+                showToast('ورود موفقیت‌آمیز', 'در حال انتقال به داشبورد مدیریت...', '🔓');
+                setTimeout(() => { window.showAdminScreen(); }, 900);
+            } else {
+                showToast('ورود ناموفق', 'ایمیل یا رمز عبور صحیح نیست.', '❌');
+                label.innerText = 'ورود به پنل';
+                btn.classList.remove('opacity-70', 'pointer-events-none');
+            }
+        });
+    
+// Make the original login form submit into the embedded dashboard.
+(function(){
+  var form=document.getElementById('admin-login-form');
+  if(form){
+    form.addEventListener('submit',async function(e){
+      e.preventDefault();
+      var email=document.getElementById('admin-email').value;
+      var password=document.getElementById('admin-password').value;
+      var btn=document.getElementById('login-submit-btn');
+      if(btn) btn.disabled=true;
+      try{
+        var ok=await window.ManaAuth.attemptLogin(email,password);
+        if(ok){
+          showToast('ورود موفقیت‌آمیز','به پنل مدیریت مانا خوش آمدید.','🔓');
+          setTimeout(showAdminScreen,350);
+        }else{
+          showToast('ورود ناموفق','ایمیل یا رمز عبور صحیح نیست.','❌');
+        }
+      }catch(err){showToast('خطا','امکان بررسی ورود وجود ندارد.','⚠️');}
+      finally{if(btn) btn.disabled=false;}
+    });
+  }
+  if(window.ManaAuth.isAuthenticated()) showAdminScreen(); else showLoginScreen();
+})();
+</script>
+</body>
+</html>
